@@ -1,6 +1,7 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
+    margin:0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -12,6 +13,33 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
+}
+
+#background{
+    margin:0;
+    position:relative;
+}
+
+.textMessage{
+    color:white;
+    width:50%;
+    float:left;
+    position:absolute;
+    top:25%;
+}
+
+.textMessage h1{
+    font-size:43px;
+    font-family:Helvetica Neue;
+    width:400px;
+    position:relative;
+    margin-left: 40px;
+}
+
+.textMessage p{
+    position:relative;
+    font-family:Helvetica;
+    margin-left:40px;
 }
 
 app {
