@@ -15,31 +15,68 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+.btn-create-account {
+    color: #ffff;
+    background-color: #00A8E8;
+    position: relative;
+    height:70px;
+}
+
+#btn-container {
+    position: absolute;
+    top: 520px;
+    left: 470px;
+}
+
+#btn-container p {
+    font-family: Helvetica Neue;
+    font-size: 19px;
+    text-align: center;
+    position: relative;
+    color: #DCDCDC
+}
+
+.btn-learn-more {
+    color: white;
+    border-color: #00A8E8;
+    max-width: 150px;
+    position:absolute;
+    left:28px;
+}
+
+.clip-rect{
+    clip-path:circle(500px at 1000 px 1000px);
+}
+
 #background{
     margin:0;
     position:relative;
 }
 
-.textMessage{
-    color:white;
-    width:50%;
-    float:left;
+#computer-img{
+    top:170px;
     position:absolute;
-    top:25%;
+    left:1000px;
 }
 
-.textMessage h1{
-    font-size:43px;
-    font-family:Helvetica Neue;
-    width:400px;
-    position:relative;
-    margin-left: 40px;
+#h1-txt{
+    color:white;
+    position:absolute;
+    top:256px;
+    left:230px;
+    text-align:center;
+    font-family: Helvetica Neue;
 }
 
-.textMessage p{
-    position:relative;
-    font-family:Helvetica;
-    margin-left:40px;
+#paragraph-txt {
+    color: #DCDCDC;
+    position: absolute;
+    font-size: 28px;
+    width: 800px;
+    left: 190px;
+    top: 344px;
+    text-align: center;
+    font-family: Helvetica Neue;
 }
 
 app {
