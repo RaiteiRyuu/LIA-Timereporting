@@ -1,8 +1,10 @@
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    margin:0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+/*    width:100vw;
+    height:100vh;*/
+    margin:0;
 }
 
 a, .btn-link {
@@ -13,70 +15,6 @@ a, .btn-link {
     color: #fff;
     background-color: #1b6ec2;
     border-color: #1861ac;
-}
-
-.btn-create-account {
-    color: #ffff;
-    background-color: #00A8E8;
-    position: relative;
-    height:70px;
-}
-
-#btn-container {
-    position: absolute;
-    top: 520px;
-    left: 470px;
-}
-
-#btn-container p {
-    font-family: Helvetica Neue;
-    font-size: 19px;
-    text-align: center;
-    position: relative;
-    color: #DCDCDC
-}
-
-.btn-learn-more {
-    color: white;
-    border-color: #00A8E8;
-    max-width: 150px;
-    position:absolute;
-    left:28px;
-}
-
-.clip-rect{
-    clip-path:circle(500px at 1000 px 1000px);
-}
-
-#background{
-    margin:0;
-    position:relative;
-}
-
-#computer-img{
-    top:170px;
-    position:absolute;
-    left:1000px;
-}
-
-#h1-txt{
-    color:white;
-    position:absolute;
-    top:256px;
-    left:230px;
-    text-align:center;
-    font-family: Helvetica Neue;
-}
-
-#paragraph-txt {
-    color: #DCDCDC;
-    position: absolute;
-    font-size: 28px;
-    width: 800px;
-    left: 190px;
-    top: 344px;
-    text-align: center;
-    font-family: Helvetica Neue;
 }
 
 app {
@@ -92,7 +30,7 @@ app {
 }
 
 .main {
-    flex: 1;
+    /*flex: 1;*/
 }
 
     .main .top-row {
@@ -106,11 +44,11 @@ app {
             margin-left: 1.5rem;
         }
 
-.main .top-row a:first-child {
+/*.main .top-row a:first-child {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+*//*
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
@@ -161,7 +99,7 @@ app {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
             }
-
+*/
 .content {
     padding-top: 1.1rem;
 }
@@ -238,7 +176,7 @@ app {
 #logo-main {
     margin-left: 2em;
 }
-
+/*
 @media (max-width: 767.98px) {
     .main .top-row:not(.auth) {
         display: none;
@@ -251,9 +189,9 @@ app {
     .main .top-row a, .main .top-row .btn-link {
         margin-left: 0;
     }
-}
+}*/
 
-@media (min-width: 768px) {
+/*@media (min-width: 768px) {
     app {
         flex-direction: row;
     }
@@ -279,8 +217,73 @@ app {
         display: none;
     }
 
-    .sidebar .collapse {
+    .sidebar .collapse {*/
         /* Never collapse the sidebar for wide screens */
-        display: block;
+        /*display: block;
     }
+}*/
+
+
+.btn-create-account {
+    color: #ffff;
+    background-color: #00A8E8;
+/*    position: relative;
+    height: 70px;*/
+}
+
+#btn-container {
+    position: relative;
+/*    top: 520px;
+    left: 470px;*/
+}
+
+#btn-container p {
+    font-family: 'Helvetica Neue';
+    font-size: 19px;
+    text-align: center;
+/*    position: relative;*/
+    color: #fff;
+}
+
+.btn-learn-more {
+    color: red;
+    border-color: #00A8E8;
+    max-width: 150px;
+    /*position: absolute;
+    left: 28px;*/
+}
+
+
+.clip-rect {
+    clip-path: circle(500px at 1000 px 1000px);
+}
+
+.background-line {
+    background: #003459;
+    color: #fff;
+    text-align: center;
+
+}
+
+
+.background-line h1{
+    font-size:2rem;
+    font-family:'Helvetica Neue';
+    margin-top:0;
+}
+
+.background-line p{
+    font-size:1rem;
+    font-family: 'Helvetica Neue';
+    /*margin:0 5rem 0 5rem;*/
+}
+
+.background-line svg{
+    display:block;
+}
+
+#computer-img {
+    top: 170px;
+    position: absolute;
+    left: 1000px;
 }
