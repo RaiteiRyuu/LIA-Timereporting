@@ -7,15 +7,16 @@
 	
 	<EditForm Model="@signInModel" OnValidSubmit="@RegisterUser">
 		<DataAnnotationsValidator />
-		<ValidationSummary />
 
 		<div class="form-group">
 			<label class="label">E-mail</label>
-			<InputText id="email" class="form-control" type="email"  @bind-Value="@signInModel.Email"></InputText>
+			<InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email"></InputText>
+			<ValidationMessage For="@(() => @signInModel.Email)" />
 		</div>
 		<div class="form-group">
 			<label class="label">Password</label>
 			<InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password"></InputText>
+			<ValidationMessage For="@(() => @signInModel.Password)" />
 		</div>
 		<div class="form-group">
 			<div class="d-flex justify-content-between">

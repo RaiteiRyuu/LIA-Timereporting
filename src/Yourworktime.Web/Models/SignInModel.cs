@@ -4,10 +4,11 @@ namespace Yourworktime.Web.Models
 {
     public class SignInModel
     {
-        [Required]
+        [Required(ErrorMessage = "E-mail is required")]
         [EmailAddress]
         public string Email { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } 
     }
 }
