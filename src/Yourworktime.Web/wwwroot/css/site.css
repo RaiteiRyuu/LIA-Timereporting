@@ -230,6 +230,7 @@ app {
 
 #btn-container {
     position: relative;
+    z-index:500;
 }
 
 #btn-container p {
@@ -282,14 +283,17 @@ app {
 
 #computer-img {
     position: relative;
-    bottom:0;
-    z-index:100;
+    bottom: 0;
+    z-index: 100;
     grid-column: 4 / -1;
     grid-row: 1;
+    width:500px;
+    height:600px;
 }
 
-#computer-img .img{
-    max-width:50%;
-    height:auto;
+#computer-img img {
+    width: auto;
+    height: 600px;
 }
+
 
