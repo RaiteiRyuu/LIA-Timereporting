@@ -2,8 +2,6 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-/*    width:100vw;
-    height:100vh;*/
     margin:0;
 }
 
@@ -227,63 +225,72 @@ app {
 .btn-create-account {
     color: #ffff;
     background-color: #00A8E8;
-/*    position: relative;
-    height: 70px;*/
+    position: relative;
 }
 
 #btn-container {
     position: relative;
-/*    top: 520px;
-    left: 470px;*/
 }
 
 #btn-container p {
     font-family: 'Helvetica Neue';
     font-size: 19px;
-    text-align: center;
-/*    position: relative;*/
-    color: #fff;
+    position: relative;
+    color: #DCDCDC;
 }
 
 .btn-learn-more {
-    color: red;
+    color: #fff;
     border-color: #00A8E8;
     max-width: 150px;
-    /*position: absolute;
-    left: 28px;*/
+    position: relative;
 }
 
 
 .clip-rect {
-    clip-path: circle(500px at 1000 px 1000px);
+    clip-path: polygon();
+}
+
+
+#background-main-page .inner {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .background-line {
     background: #003459;
-    color: #fff;
-    text-align: center;
-
+    color: #DCDCDC;
 }
 
 
 .background-line h1{
+    color:#fff;
     font-size:2rem;
     font-family:'Helvetica Neue';
-    margin-top:0;
+    margin-top:20%;
 }
 
 .background-line p{
     font-size:1rem;
     font-family: 'Helvetica Neue';
-    /*margin:0 5rem 0 5rem;*/
+    margin:0 5rem 0 5rem;
 }
 
-.background-line svg{
-    display:block;
+.p-md-5 {
+    text-align: center;
+    position: relative;
+    grid-row: 1;
+    grid-column: 1 / span 3;
+    padding-top: 20%;
+    z-index: 1;
 }
 
 #computer-img {
-    top: 170px;
-    position: absolute;
-    left: 1000px;
+    position: relative;
+    bottom:0;
+    z-index:100;
+    grid-column: 4 / -1;
+    grid-row: 1;
 }
+
