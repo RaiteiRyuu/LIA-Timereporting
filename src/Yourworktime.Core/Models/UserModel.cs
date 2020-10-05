@@ -1,0 +1,19 @@
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MongoServer.Core.Models
+{
+    public class UserModel
+    {
+        [BsonId]
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Hash { get; set; }
+        public string Password { get; set; }
+        public DateTime RegisteredDate { get; set; }
+    }
+}
