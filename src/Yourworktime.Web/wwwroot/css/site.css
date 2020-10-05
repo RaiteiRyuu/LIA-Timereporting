@@ -246,12 +246,6 @@ app {
     position: relative;
 }
 
-
-.clip-rect {
-    clip-path: polygon();
-}
-
-
 #background-main-page .inner {
     display: grid;
     position: relative;
@@ -292,5 +286,10 @@ app {
     z-index:100;
     grid-column: 4 / -1;
     grid-row: 1;
+}
+
+#computer-img .img{
+    max-width:50%;
+    height:auto;
 }
 
