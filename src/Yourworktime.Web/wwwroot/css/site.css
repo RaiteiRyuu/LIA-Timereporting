@@ -2,6 +2,7 @@
 
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin:0;
 }
 
 a, .btn-link {
@@ -27,7 +28,7 @@ app {
 }
 
 .main {
-    flex: 1;
+    /*flex: 1;*/
 }
 
     .main .top-row {
@@ -41,11 +42,11 @@ app {
             margin-left: 1.5rem;
         }
 
-.main .top-row a:first-child {
+/*.main .top-row a:first-child {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-
+*//*
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
 }
@@ -96,7 +97,7 @@ app {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
             }
-
+*/
 .content {
     padding-top: 1.1rem;
 }
@@ -178,50 +179,35 @@ app {
     margin-left: 2em;
 }
 
-@media (max-width: 767.98px) {
-    .main .top-row:not(.auth) {
-        display: none;
-    }
-
-    .main .top-row.auth {
-        justify-content: space-between;
-    }
-
-    .main .top-row a, .main .top-row .btn-link {
-        margin-left: 0;
-    }
+.btn-create-account {
+    color: #ffff;
+    background-color: #00A8E8;
+    position: relative;
 }
 
-@media (min-width: 768px) {
-    app {
-        flex-direction: row;
-    }
+.create-join {
+    margin: 20px;
+    position:relative;
+}
 
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
-    }
+#btn-container {
+    position: relative;
+    z-index:500;
+    text-align:center;
+}
 
-    .main .top-row {
-        position: sticky;
-        top: 0;
-    }
+#btn-container p {
+    font-family: 'Helvetica Neue';
+    font-size: 19px;
+    position: relative;
+    color: #DCDCDC;
+}
 
-    .main > div {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
-
-    .navbar-toggler {
-        display: none;
-    }
-
-    .sidebar .collapse {
-        /* Never collapse the sidebar for wide screens */
-        display: block;
-    }
+.btn-learn-more {
+    color: #fff;
+    border-color: #00A8E8;
+    max-width: 150px;
+    position: relative;
 }
 
 .form {
@@ -259,4 +245,53 @@ a:hover {
 
 .form label {
     color: #707070;
+}
+
+#background-main-page .inner {
+    display: grid;
+    position: relative;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.background-line {
+    background: #003459;
+    color: #DCDCDC;
+}
+
+
+.background-line h1{
+    color:#fff;
+    font-size:2rem;
+    font-family:'Helvetica Neue';
+    margin-top:10%;
+}
+
+.background-line p{
+    font-size:1rem;
+    font-family: 'Helvetica Neue';
+    margin:0 5rem 0 5rem;
+}
+
+#home-text {
+    text-align: center;
+    position: relative;
+    grid-row: 1;
+    grid-column: 1 / span 3;
+    padding-top: 2em;
+    z-index: 1;
+}
+
+#computer-img {
+    position: relative;
+    bottom: 0;
+    z-index: 100;
+    grid-column: 4 / -1;
+    grid-row: 1;
+    width:500px;
+    height:600px;
+}
+
+#computer-img img {
+    width: auto;
+    height: 600px;
 }
