@@ -1,5 +1,6 @@
 ﻿@page "/account/signup"
 @using Yourworktime.Web.Models
+@using Yourworktime.Core;
 @inject NavigationManager navigationManager
 
 <div class="form">
@@ -60,10 +61,18 @@
 </div>
 
 @code {
-	private SignUpModel signUpModel = new SignUpModel();
+    private SignUpModel signUpModel = new SignUpModel();
 
-	private async Task RegisterUser()
-	{
-		// Register..
-	}
+    private async Task RegisterUser()
+    {
+        if (ServerHandler.UserService.AuthorizeUser(ModelConverter.ToUserModel(signUpModel)))
+        {
+            navigationManager.NavigateTo("/welcomemate");
+        }
+        else
+        {
+
+			// error
+        }
+    }
 }
