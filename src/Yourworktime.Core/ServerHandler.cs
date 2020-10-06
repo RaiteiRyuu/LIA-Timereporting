@@ -6,28 +6,29 @@ using Yourworktime.Core.Services;
 
 namespace Yourworktime.Core
 {
-    public static class ServerHandler
+    public class ServerHandler
     {
-        private const string connectionStr = "mongodb+srv://admin:tVLvP36sRxn7ALPZ@cluster0.b1jpo.azure.mongodb.net/database?retryWrites=true&w=majority";
+        private static string userDbName = "database";
+        private static string userTableName = "users";
 
-        public static UserService UserService 
+        public UserService UserService 
         {
             get
             {
                 if (_userService == null)
-                    _userService = new UserService();
+                    _userService = new UserService(client.GetDatabase(userDbName), userTableName);
 
                 return _userService;
             }
         }
-        private static UserService _userService;
+        private UserService _userService;
 
-        private static MongoClient client 
+        private MongoClient client 
         {
             get
             {
                 if (_client == null)
-                    Connect(connectionStr);
+                    Connect(connectionString);
 
                 return _client;
             }
@@ -35,12 +36,20 @@ namespace Yourworktime.Core
         }
         private static MongoClient _client;
 
-        internal static IMongoDatabase GetDatabase(string database)
+        private string connectionString;
+
+        public ServerHandler(string connectionString)
+        {
+            this.connectionString = connectionString;
+            Connect(connectionString);
+        }
+
+        internal IMongoDatabase GetDatabase(string database)
         {
             return client.GetDatabase(database);
         }
 
-        private static void Connect(string connetionString)
+        private void Connect(string connetionString)
         {
             client = new MongoClient(connetionString);
         }

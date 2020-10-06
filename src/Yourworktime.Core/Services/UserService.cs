@@ -4,131 +4,146 @@ using MongoServer.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
 {
     // Todo: Make methods async!
-    // Todo: Use JWT
-    // Todo: don't return null, return empty object
     public class UserService
     {
-        private static string databaseName = "database";
-        private static string tableName = "users";
-
         private IMongoDatabase database;
+        private string tableName;
 
-        public UserService()
+        public UserService(IMongoDatabase database, string tableName)
         {
-            database = ServerHandler.GetDatabase(databaseName);
+            this.database = database;
+            this.tableName = tableName;
         }
 
-        // authenticate user (When signing in)
-        public bool AuthenticateUser(string email, string password)
+        // Authenticate user (When signing in)
+        public async Task<bool> AuthenticateUser(string email, string password)
         {
-            // check if email exists
-            // get user by email
-            // hash password with user salt
-            // compare hashed password with users hashed password
+            email = email.ToLower();
 
-            return true;
-        }
-
-        // authorize user (When signing up)
-        public bool AuthorizeUser(UserModel model)
-        {
-            // check is email already exists
-            UserModel user = LoadUserByField(tableName, "Email", model.Email.ToLower());
-            if (user != null)
+            // Check if email exists.
+            List<UserModel> models = await LoadUsersByField("Email", email);
+            if (models.Count == 0)
                 return false;
 
-            // create a hashed version of the password
-            string salt = Utils.GetSalt(32);
+            // Get user by email.
+            UserModel user = models.First();
+
+            // Hash password with user salt.
+            string hashedPassword = Utils.ComputeSha256Hash(string.Concat(password, user.Salt));
+
+            // Compare hashed password with users hashed password.
+            return user.Password.Equals(hashedPassword);
+        }
+
+        // Authorize user (When signing up)
+        public async Task<bool> AuthorizeUser(UserModel model)
+        {
+            CleanUpUserModel(model);
+
+            // Check is email already exists.
+            if (await CountUsersByField("Email", model.Email) > 0)
+                return false;
+
+            // Create a hashed version of the password.
+            string salt = Utils.GetSalt(16);
             string hashedPassword = Utils.ComputeSha256Hash(string.Concat(model.Password, salt));
 
-            // set registration date
+            // Set registration date.
             DateTime dateNow = DateTime.UtcNow;
 
-            // save user in database
+            // Save user in database.
             UserModel newUser = new UserModel()
             {
-                FirstName = model.FirstName.UppercaseFirst(),
-                LastName = model.LastName.UppercaseFirst(),
-                Email = model.Email.ToLower(),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
                 RegisteredDate = dateNow,
-                Hash = salt,
+                Salt = salt,
                 Password = hashedPassword
 
             };
-            InsertUser(tableName, newUser);
+            await InsertUser(newUser);
 
             return true;
         }
 
         // Create
-        public void InsertUser(string table, UserModel user)
+        public async Task InsertUser(UserModel user)
         {
-            IMongoCollection<UserModel> collection = database.GetCollection<UserModel>(table);
-            collection.InsertOne(user);
+            IMongoCollection<UserModel> collection = database.GetCollection<UserModel>(tableName);
+            await collection.InsertOneAsync(user);
         }
 
         // Read
-        public List<UserModel> LoadUsers(string table)
+        public async Task<List<UserModel>> LoadUsers()
         {
-            IMongoCollection<UserModel> collection = database.GetCollection<UserModel>(table);
+            IMongoCollection<UserModel> collection = database.GetCollection<UserModel>(tableName);
 
-            var found = collection.Find(new BsonDocument());
-            if (found.CountDocuments() == 0)
-            {
-                return null;
-            }
+            var found = await collection.FindAsync(new BsonDocument());
             return found.ToList();
         }
 
-        public UserModel LoadUserById(string table, Guid id)
+        public async Task<UserModel> LoadUserById(Guid id)
         {
-            var collection = database.GetCollection<UserModel>(table);
+            var collection = database.GetCollection<UserModel>(tableName);
             var filter = Builders<UserModel>.Filter.Eq("Id", id);
 
-            var found = collection.Find(filter);
-            if (found.CountDocuments() == 0)
-            {
+            var found = await collection.FindAsync(filter);
+            if (!found.Any())
                 return null;
-            }
             return found.First();
         }
 
-        public UserModel LoadUserByField<T>(string table, string field, T value)
+        public async Task<List<UserModel>> LoadUsersByField<T>(string field, T value)
         {
-            var collection = database.GetCollection<UserModel>(table);
+            var collection = database.GetCollection<UserModel>(tableName);
             var filter = Builders<UserModel>.Filter.Eq(field, value);
 
-            var found = collection.Find(filter);
-            if (found.CountDocuments() == 0)
-            {
-                return null;
-            }
-            return found.First();
+            var found = await collection.FindAsync(filter);
+            return found.ToList();
+        }
+
+        public async Task<long> CountUsersByField<T>(string field, T value)
+        {
+            var collection = database.GetCollection<UserModel>(tableName);
+            var filter = Builders<UserModel>.Filter.Eq(field, value);
+
+            return await collection.CountDocumentsAsync(filter);
         }
 
         // Update
-        public void UpsertUser(string table, Guid id, UserModel record)
+        public void UpsertUser(Guid id, UserModel user)
         {
-            var collection = database.GetCollection<UserModel>(table);
+            var collection = database.GetCollection<UserModel>(tableName);
 
             var result = collection.ReplaceOne(
                 new BsonDocument("_id", id),
-                record,
+                user,
                 new ReplaceOptions { IsUpsert = true });
         }
 
         // Delete
-        public void DeleteUser(string table, Guid id)
+        public void DeleteUser(Guid id)
         {
-            var collection = database.GetCollection<UserModel>(table);
+            var collection = database.GetCollection<UserModel>(tableName);
             var filter = Builders<UserModel>.Filter.Eq("Id", id);
             collection.DeleteOne(filter);
+        }
+
+        private void CleanUpUserModel(UserModel model)
+        {
+            model.FirstName = model.FirstName.UppercaseFirst().Trim();
+            model.LastName = model.LastName.UppercaseFirst().Trim();
+            model.Email = model.Email.ToLower().Trim();
         }
     }
 }

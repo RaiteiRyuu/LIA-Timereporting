@@ -1,21 +1,23 @@
 ﻿@page "/account/signin"
 @using Yourworktime.Web.Models
+@using Yourworktime.Core;
 @inject NavigationManager navigationManager
+@inject ServerHandler serverHandler
 
 <div class="form">
 	<h2 class="title">Sign in</h2>
-	
+
 	<EditForm Model="@signInModel" OnValidSubmit="@RegisterUser">
 		<DataAnnotationsValidator />
 
 		<div class="form-group">
 			<label class="label">E-mail</label>
-			<InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email"></InputText>
+			<InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email" @onkeyup="@(_ => OnFormChanged())"></InputText>
 			<ValidationMessage For="@(() => @signInModel.Email)" />
 		</div>
 		<div class="form-group">
 			<label class="label">Password</label>
-			<InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password"></InputText>
+			<InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password" @onkeyup="@(_ => OnFormChanged())"></InputText>
 			<ValidationMessage For="@(() => @signInModel.Password)" />
 		</div>
 		<div class="form-group">
@@ -37,7 +39,7 @@
 		@if (showSignInError)
 		{
 			<div class="alert alert-danger">
-				Sorry, wrong username or password
+				Sorry, wrong e-mail or password
 			</div>
 		}
 
@@ -58,6 +60,20 @@
 
 	private async Task RegisterUser()
 	{
-		// Register..
+		if (await serverHandler.UserService.AuthenticateUser(signInModel.Email, signInModel.Password))
+		{
+			showSignInError = false;
+			navigationManager.NavigateTo("/welcomemate");
+		}
+		else
+		{
+			showSignInError = true;
+		}
+	}
+
+	private void OnFormChanged()
+	{
+		if (showSignInError)
+			showSignInError = false;
 	}
 }

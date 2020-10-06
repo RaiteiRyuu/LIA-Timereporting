@@ -2,6 +2,7 @@
 @using Yourworktime.Web.Models
 @using Yourworktime.Core;
 @inject NavigationManager navigationManager
+@inject ServerHandler serverHandler
 
 <div class="form">
 	<h2 class="title">Sign Up</h2>
@@ -22,7 +23,7 @@
 
 		<div class="form-group">
 			<label class="label">E-mail</label>
-			<InputText id="email" class="form-control" type="email" @bind-Value="@signUpModel.Email"></InputText>
+			<InputText id="email" class="form-control" type="email" @bind-Value="@signUpModel.Email" @onkeyup="@(_ => OnEmailChanged())"></InputText>
 			<ValidationMessage For="@(() => signUpModel.Email)" />
 		</div>
 		<div class="form-group">
@@ -50,6 +51,13 @@
 			</div>
 		</div>
 
+		@if (showSignUpError)
+		{
+			<div class="alert alert-danger">
+				An account with this E-mail already exists
+			</div>
+		}
+
 		<div class="text-center">
 			<p>Already have an account? <a href="/account/signin">Sign In</a></p>
 		</div>
@@ -61,18 +69,25 @@
 </div>
 
 @code {
-    private SignUpModel signUpModel = new SignUpModel();
+	private SignUpModel signUpModel = new SignUpModel();
+	private bool showSignUpError = false;
 
-    private async Task RegisterUser()
-    {
-        if (ServerHandler.UserService.AuthorizeUser(ModelConverter.ToUserModel(signUpModel)))
-        {
-            navigationManager.NavigateTo("/welcomemate");
-        }
-        else
-        {
+	private async Task RegisterUser()
+	{
+		if (await serverHandler.UserService.AuthorizeUser(ModelConverter.ToUserModel(signUpModel)))
+		{
+			showSignUpError = false;
+			navigationManager.NavigateTo("/welcomemate");
+		}
+		else
+		{
+			showSignUpError = true;
+		}
+	}
 
-			// error
-        }
-    }
+	private void OnEmailChanged()
+	{
+		if (showSignUpError)
+			showSignUpError = false;
+	}
 }

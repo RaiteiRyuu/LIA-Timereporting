@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using Yourworktime.Core;
 
 namespace Yourworktime.Web
 {
@@ -28,6 +28,9 @@ namespace Yourworktime.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            string connectionString = Security.DecryptString(Configuration.GetValue<string>("DbConnection:EncryptedConnectionStr"), Configuration.GetValue<string>("DbConnection:Key"));
+            services.AddSingleton(new ServerHandler(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
