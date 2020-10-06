@@ -179,23 +179,23 @@ app {
     margin-left: 2em;
 }
 
-.circle {
+
+.image-container {
+    background: white;
+    width: 3.5em;
+    height: 3.5em;
     border-radius: 50%;
-    height: 4rem;
-    width: 4rem;
-    background-color: white;
+    
     
 }
-
-    .circle img {
-        height: 3rem;
-        width: 3rem;
-        margin: auto;
+    .image-container img {
+        background: white;
+        width: 3.5em;
+        height: 3.5em;
+        border-radius: 50%;
+        padding: 0.3em;
     }
-
-#workspace-name {
-    margin-left: 10px;
-}
+    
 
 .btn-create-account {
     color: #ffff;

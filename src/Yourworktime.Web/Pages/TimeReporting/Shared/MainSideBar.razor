@@ -1,32 +1,48 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
-    <div>
-        <div class="circle">
+﻿<div class="top-row pl-4 navbar shadow-sm bg-white">
+
+    <div class="d-flex justify-content-start">
+        <div class="image-container">
             <img src="/images/workspace_logo.png">
         </div>
-        <div id="workspace-name">
-            <h2>Cryptica</h2>
+        <div class="text-black-50 m-2 pl-2 my-auto">
+            <h3>Cryptica</h3>
+            <p class="text--left">Workspace</p>
         </div>
     </div>
 
 </div>
 
 <div>
-    <ul class="nav flex-column">
+    <ul class="nav flex-column shadow bg-white sidenav">
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
-            </NavLink>
+            <SideBarButton name="Report Time" iconName="clock-fill.svg" />
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
+            <SideBarButton name="Dashboard" iconName="grid-fill.svg"/>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
-            </NavLink>
+            <SideBarButton name="Reports" iconName="file-text-fill.svg"/>
         </li>
+        <li class="nav-item px-3">
+            <SideBarButton name="Projects" iconName="folder-fill.svg"/>
+        </li>
+        <li class="nav-item px-3">
+            <SideBarButton name="Clients" iconName="person-fill.svg"/>
+        </li>
+        <li class="nav-item px-3">
+            <SideBarButton name="Members" iconName="people-fill.svg"/>
+        </li>
+        <li class="nav-item px-3">
+            <SideBarButton name="Chat" iconName="chat-fill.svg"/>
+        </li>
+        <div class="align-items-end">
+            <li class="nav-item px-3">
+                <SideBarButton name="Help" iconName="question-circle-fill.svg"/>
+            </li>
+            <li class="nav-item px-3">
+                <SideBarButton name="Settings" iconName="gear-fill.svg"/>
+            </li>
+        </div>
     </ul>
 </div>
 @code {
