@@ -67,20 +67,17 @@ app {
 
     .sidebar .nav-item {
         font-size: 0.9rem;
-        padding-bottom: 0.5rem;
     }
 
         .sidebar .nav-item:first-of-type {
-            padding-top: 1rem;
         }
 
         .sidebar .nav-item:last-of-type {
-            padding-bottom: 1rem;
+
         }
 
         .sidebar .nav-item a {
             color: #707070;
-            border-radius: 4px;
             height: 3rem;
             display: flex;
             align-items: center;
