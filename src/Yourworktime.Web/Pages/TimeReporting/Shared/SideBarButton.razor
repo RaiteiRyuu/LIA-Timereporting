@@ -1,0 +1,16 @@
+﻿<NavLink href="@Href" class="nav-link" Match="NavLinkMatch.All">
+    <img src="/icons/@IconName" alt="" width="32" height="32" title="Bootstrap">
+    <span class="m-2" aria-hidden="true"></span> @Name
+</NavLink>
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public string IconName { get; set; }
+
+    [Parameter]
+    public string Href { get; set; }
+
+}
