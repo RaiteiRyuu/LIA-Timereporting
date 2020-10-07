@@ -6,14 +6,13 @@ html, body {
     height: 100%;
 }
 
-.navbar {
-    padding:0;
+.vet-inte{
+    height: 20px;
 }
-.navbar-brand{
-    min-height:55px;
-    padding:0 15px 5px;
+.container-fluid{
+    /*max-height:30px;*/
+
 }
 
 .navbar-header{
-    margin-left:900px;
 }
