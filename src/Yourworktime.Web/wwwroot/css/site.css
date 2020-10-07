@@ -27,6 +27,11 @@ app {
     align-items: center;
 }
 
+.content2 {
+    padding-top: 1.1rem;
+    flex: 1;
+}
+
 .main {
     /*flex: 1;*/
 }
@@ -179,6 +184,9 @@ app {
     margin-left: 2em;
 }
 
+.hide-scroll {
+    overflow: hidden;
+}
 
 .image-container {
     background: white;
