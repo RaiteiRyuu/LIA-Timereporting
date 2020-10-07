@@ -1,49 +1,51 @@
-﻿<div class="top-row pl-4 navbar shadow-sm bg-white">
+﻿<div class="h-100">
+    <div class="top-row pl-4 navbar shadow-sm bg-white">
 
-    <div class="d-flex justify-content-start">
-        <div class="image-container">
-            <img src="/images/workspace_logo.png">
+        <div class="d-flex justify-content-start">
+            <div class="image-container">
+                <img src="/images/workspace_logo.png">
+            </div>
+            <div class="text-black-50 m-2 pl-2 my-auto">
+                <h3>Cryptica</h3>
+                <p class="text--left">Workspace</p>
+            </div>
         </div>
-        <div class="text-black-50 m-2 pl-2 my-auto">
-            <h3>Cryptica</h3>
-            <p class="text--left">Workspace</p>
-        </div>
+
     </div>
 
-</div>
-
-<div>
-    <ul class="nav flex-column shadow bg-white sidenav">
-        <li class="nav-item px-3">
-            <SideBarButton name="Report Time" iconName="clock-fill.svg" />
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Dashboard" iconName="grid-fill.svg"/>
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Reports" iconName="file-text-fill.svg"/>
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Projects" iconName="folder-fill.svg"/>
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Clients" iconName="person-fill.svg"/>
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Members" iconName="people-fill.svg"/>
-        </li>
-        <li class="nav-item px-3">
-            <SideBarButton name="Chat" iconName="chat-fill.svg"/>
-        </li>
-        <div class="align-items-end">
-            <li class="nav-item px-3">
-                <SideBarButton name="Help" iconName="question-circle-fill.svg"/>
-            </li>
-            <li class="nav-item px-3">
-                <SideBarButton name="Settings" iconName="gear-fill.svg"/>
-            </li>
-        </div>
-    </ul>
+    <div class=" nav flex-column shadow bg-white d-flex justify-content-between">
+            <div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Report Time" IconName="clock-fill.svg" Href="/reporttime" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Dashboard" IconName="grid-fill.svg" Href="/dashboard" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Reports" IconName="file-text-fill.svg" Href="/reports" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Projects" IconName="folder-fill.svg" Href="/projects" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Clients" IconName="person-fill.svg" Href="/clients" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Members" IconName="people-fill.svg" Href="/members" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Chat" IconName="chat-fill.svg" Href="/chat" />
+                </div>
+            </div>
+            <div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Help" IconName="question-circle-fill.svg" Href="/chat" />
+                </div>
+                <div class="nav-item px-3">
+                    <SideBarButton Name="Settings" IconName="gear-fill.svg" Href="/chat" />
+                </div>
+            </div>
+    </div>
 </div>
 @code {
 

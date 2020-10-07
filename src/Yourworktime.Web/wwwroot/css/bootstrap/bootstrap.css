@@ -3890,7 +3890,7 @@ fieldset:disabled .btn {
 .nav-pills .nav-link.active,
 .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #0d6efd;
+  background-color: #066dd4;
 }
 
 .nav-fill > .nav-link,
@@ -7111,6 +7111,10 @@ button.close {
 
 .text-dark {
   color: #343a40 !important;
+}
+
+.text-dark-blue {
+    color: #003459 !important;
 }
 
 .text-white {
