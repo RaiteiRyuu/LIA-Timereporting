@@ -40,9 +40,13 @@ html, body {
     margin-top:2rem; 
 }
 
-.navbar-brand img{
+/*.navbar-brand img{
     width:auto;
     height:30px;
-}
+}*/
 
+#logo-main-top-bar {
+    width: auto;
+    height: 30px;
+}
 
