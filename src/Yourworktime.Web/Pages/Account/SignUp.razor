@@ -39,14 +39,14 @@
         <div class="form-group">
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" @bind-value="@signUpModel.AgreeToTerms">
-                <label class="label">@languageContainer.Keys["AgreeTo"] <a href="/termsofuse">>@languageContainer.Keys["TermOfUse"]</a></label>
+                <label class="label">@languageContainer.Keys["AgreeTo"] <a href="/termsofuse">@languageContainer.Keys["TermOfUse"]</a></label>
             </div>
             <ValidationMessage For="@(() => signUpModel.AgreeToTerms)" />
         </div>
 
         <div class="field" style="margin-bottom: 1em;">
             <div class="control">
-                <button type="submit" class="btn btn-filled-light-blue btn-block">@languageContainer.Keys["SignUp"]Sign Up</button>
+                <button type="submit" class="btn btn-filled-light-blue btn-block">@languageContainer.Keys["SignUp"]</button>
             </div>
         </div>
 
