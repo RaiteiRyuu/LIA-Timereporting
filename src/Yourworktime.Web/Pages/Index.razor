@@ -1,22 +1,21 @@
 ﻿@page "/"
+@inject ILanguageContainerService languageContainer
 
 <section id="background-main-page">
 
     <div class="background-line" >
         <div class="inner">
             <div id="home-text">
-                <h1>Your work time is our number one priority!</h1>
-                <p>
-                    Yourworktime makes it easy to track time and expenses, <br />
-                    so you get access to critical data without driving <br />
-                    yourself (or your team) crazy.
-                </p>
+                <h1>@languageContainer.Keys["MainpageH1"]</h1>
+                <p>@languageContainer.Keys["MainpageParag1"]</p> 
+                <p>@languageContainer.Keys["MainpageParag2"]</p> 
+                <p>@languageContainer.Keys["MainpageParag3"]</p> 
                 <div id="btn-container">
                     <div class="create-join">
-                        <NavLink class="btn btn-filled-light-blue" type="button" href="/account/signup">Create an account</NavLink>
-                        <p>And join 3+ others!</p>
+                        <NavLink class="btn btn-filled-light-blue" type="button" href="/account/signup">@languageContainer.Keys["ButtonCreateAccount"]</NavLink>
+                        <p>@languageContainer.Keys["Join3Others"]</p>
                     </div>
-                    <NavLink class="btn btn-outline-light-blue" type="button" href="/learnmore">Learn more</NavLink>
+                    <NavLink class="btn btn-outline-light-blue" type="button" href="/learnmore">@languageContainer.Keys["Learnmore"]</NavLink>
                 </div>
             </div>
             <div id="computer-img">

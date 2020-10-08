@@ -1,63 +1,64 @@
 ﻿@page "/account/signin"
 @using Yourworktime.Web.Models
 @inject NavigationManager navigationManager
+@inject ILanguageContainerService languageContainer
 
 <div class="form">
-	<h2 class="title">Sign in</h2>
-	
-	<EditForm Model="@signInModel" OnValidSubmit="@RegisterUser">
-		<DataAnnotationsValidator />
+    <h2 class="title">@languageContainer.Keys["SignIn"]</h2>
 
-		<div class="form-group">
-			<label class="label">E-mail</label>
-			<InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email"></InputText>
-			<ValidationMessage For="@(() => @signInModel.Email)" />
-		</div>
-		<div class="form-group">
-			<label class="label">Password</label>
-			<InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password"></InputText>
-			<ValidationMessage For="@(() => @signInModel.Password)" />
-		</div>
-		<div class="form-group">
-			<div class="d-flex justify-content-between">
-				<div class="form-check">
-					<input type="checkbox" class="form-check-input" @bind-value="@stayLoggedIn">
-					<label class="label">Stay logged in</label>
-				</div>
-				<a href="/account/forgotpassword">Forgot password?</a>
-			</div>
-		</div>
+    <EditForm Model="@signInModel" OnValidSubmit="@RegisterUser">
+        <DataAnnotationsValidator />
 
-		<div class="field" style="margin-bottom: 1em;">
-			<div class="control">
-				<button type="submit" class="btn btn-filled-light-blue btn-block">Sign In</button>
-			</div>
-		</div>
+        <div class="form-group">
+            <label class="label">E-mail</label>
+            <InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email"></InputText>
+            <ValidationMessage For="@(() => @signInModel.Email)" />
+        </div>
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["Password"]</label>
+            <InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password"></InputText>
+            <ValidationMessage For="@(() => @signInModel.Password)" />
+        </div>
+        <div class="form-group">
+            <div class="d-flex justify-content-between">
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" @bind-value="@stayLoggedIn">
+                    <label class="label">@languageContainer.Keys["StayLoggedIn"]</label>
+                </div>
+                <a href="/account/forgotpassword">@languageContainer.Keys["ForgotPass"]</a>
+            </div>
+        </div>
 
-		@if (showSignInError)
-		{
-			<div class="alert alert-danger">
-				Sorry, wrong username or password
-			</div>
-		}
+        <div class="field" style="margin-bottom: 1em;">
+            <div class="control">
+                <button type="submit" class="btn btn-filled-light-blue btn-block">Sign In</button>
+            </div>
+        </div>
 
-		<div class="text-center">
-			<p>Don't have an account? <a href="/account/signup">Sign Up</a></p>
-		</div>
-	</EditForm>
+        @if (showSignInError)
+        {
+    <div class="alert alert-danger">
+        @languageContainer.Keys["WrongUserPass"]Sorry, wrong username or password
+    </div>
+        }
+
+        <div class="text-center">
+            <p>@languageContainer.Keys["DontHaveAccount"]Don't have an account? <a href="/account/signup">Sign Up</a></p>
+        </div>
+    </EditForm>
 </div>
 
 <div class="text-center">
-	<p>Your data is safe with us: <a href="/security">Security</a> <a href="/privacy">Privacy</a></p>
+    <p>@languageContainer.Keys["DataIsSafe"]Your data is safe with us: <a href="/security">Security</a> <a href="/privacy">Privacy</a></p>
 </div>
 
 @code {
-	private SignInModel signInModel = new SignInModel();
-	private bool showSignInError = false;
-	private bool stayLoggedIn = false;
+    private SignInModel signInModel = new SignInModel();
+    private bool showSignInError = false;
+    private bool stayLoggedIn = false;
 
-	private async Task RegisterUser()
-	{
-		// Register..
-	}
+    private async Task RegisterUser()
+    {
+        // Register..
+    }
 }
