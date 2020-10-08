@@ -26,6 +26,10 @@ app {
     align-items: center;
 }
 
+.overflow-hidden{
+    overflow: hidden;
+}
+
 .main {
     flex: 1;
 }
