@@ -1,7 +1,52 @@
 ﻿@page "/dashboard"
 
-<h3>Dashboard</h3>
+<div class="mr-5">
+    <div class="bg-white d-flex justify-content-start">
+        <div class="p-2 m-2 border-right">Dashboard</div>
+        <div class="p-2 m-2">Today</div>
+        <div class="p-2 m-2 text-decoration-underline">Week</div>
+        <div class="p-2 m-2">Day</div>
+    </div>
+</div>
+<div class="container">
+    <div class="p-3 text-white d-flex">
+        <span class="p2 text-black-50 ml-5">Total Time</span>
+        <span class="ml-auto p2 text-black-50">Top Project</span>
+        <span class="ml-auto p2 text-black-50 mr-5">Top Client</span>
+    </div>
+</div>
+    <SfChart Title="">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"
+                           Title="Day">
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Time (Hours)">
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Column" DataSource="@Time"
+                         XName="Day" YName="SalesValue">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true"> </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
 
-@code {
+    @code {
+        public class SalesData
+        {
+            public string Day { get; set; }
+            public double SalesValue { get; set; }
+        }
 
-}
+        public List<SalesData> Time = new List<SalesData>
+    {
+        new SalesData { Day = "Monday", SalesValue = 10 },
+        new SalesData { Day = "Tuesday", SalesValue = 8 },
+        new SalesData { Day = "Wednesday", SalesValue = 20 },
+        new SalesData { Day = "Thursday", SalesValue = 6 },
+        new SalesData { Day = "Friday", SalesValue = 9 },
+        new SalesData { Day = "Saturday", SalesValue = 2 },
+        new SalesData { Day = "Sunday", SalesValue = 1 }
+    };
+    }
