@@ -5,19 +5,29 @@
         <div class="p-2 m-2 border-right">Dashboard</div>
         <div class="p-2 m-2">Today</div>
         <div class="p-2 m-2 text-decoration-underline">Week</div>
-        <div class="p-2 m-2">Day</div>
+        <div class="p-2 m-2">Month</div>
+        <div class="p-2 m-2">Year</div>
     </div>
 </div>
 <div class="container">
-    <div class="p-3 text-white d-flex">
-        <span class="p2 text-black-50 ml-5">Total Time</span>
-        <span class="ml-auto p2 text-black-50">Top Project</span>
-        <span class="ml-auto p2 text-black-50 mr-5">Top Client</span>
+    <div class="p-3 text-white d-flex justify-content-between bg-dark-blue">
+        <div class="text-black-50">
+            <span>Total Time</span>
+            <span>100h</span>
+        </div>
+        <div class="text-black-50">
+            <span>Top Project</span>
+            <span>100h</span>
+        </div>
+        <div class="text-black-50">
+            <span>Top Client</span>
+            <span>100h</span>
+        </div>  
     </div>
 </div>
-    <SfChart Title="">
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category"
-                           Title="Day">
+<div class="container">
+    <SfChart>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Days (this week)">
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Time (Hours)">
         </ChartPrimaryYAxis>
@@ -31,6 +41,7 @@
             </ChartSeries>
         </ChartSeriesCollection>
     </SfChart>
+</div>
 
     @code {
         public class SalesData
