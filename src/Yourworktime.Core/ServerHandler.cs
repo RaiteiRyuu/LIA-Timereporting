@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Extensions.Configuration;
 using Yourworktime.Core.Services;
 
 namespace Yourworktime.Core
@@ -23,12 +24,24 @@ namespace Yourworktime.Core
         }
         private UserService _userService;
 
+        public SigninService SigninService 
+        {
+            get 
+            {
+                if (_signinService == null)
+                    _signinService = new SigninService(UserService, configuration);
+
+                return _signinService;
+            }
+        }
+        private SigninService _signinService;
+
         private MongoClient client 
         {
             get
             {
                 if (_client == null)
-                    Connect(connectionString);
+                    Connect(configuration["ConnectionString"]);
 
                 return _client;
             }
@@ -36,12 +49,12 @@ namespace Yourworktime.Core
         }
         private static MongoClient _client;
 
-        private string connectionString;
+        private IConfiguration configuration;
 
-        public ServerHandler(string connectionString)
+        public ServerHandler(IConfiguration configuration)
         {
-            this.connectionString = connectionString;
-            Connect(connectionString);
+            this.configuration = configuration;
+            Connect(configuration["ConnectionString"]);
         }
 
         internal IMongoDatabase GetDatabase(string database)

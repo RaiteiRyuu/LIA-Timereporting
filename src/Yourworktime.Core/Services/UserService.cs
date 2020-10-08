@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
 {
-    // Todo: Make methods async!
     public class UserService
     {
         private IMongoDatabase database;
