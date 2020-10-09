@@ -20,14 +20,15 @@ namespace Yourworktime.Web
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            string savedToken = await localStorage.GetItemAsync<string>("authToken");
+            //string savedToken = await localStorage.GetItemAsync<string>("authToken");
 
-            if (string.IsNullOrWhiteSpace(savedToken))
-            {
-                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-            }
+            //if (string.IsNullOrWhiteSpace(savedToken))
+            //{
+            //    return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            //}
 
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            //return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
         public void MarkUserAsAuthenticated(string email)

@@ -35,7 +35,7 @@ namespace Yourworktime.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            IServiceCollection s = services.AddBlazoredLocalStorage();
+            services.AddBlazoredLocalStorage();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
