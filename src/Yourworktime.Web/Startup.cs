@@ -71,7 +71,8 @@ namespace Yourworktime.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzMwOTUxQDMxMzgyZTMzMmUzMFZjL0UvTFd3Q3g1QkxDdDErQXBLZkh1ZmRxSU9xUDVPZ0FXSUxUa0xPVDQ9");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(Configuration["SyncfusionLicense"]);
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

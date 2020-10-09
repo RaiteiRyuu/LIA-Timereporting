@@ -1,64 +1,65 @@
 ﻿@page "/dashboard"
+@attribute [Authorize]
 
 <div class="mr-5">
-    <div class="bg-white d-flex justify-content-start">
-        <div class="p-2 m-2 border-right">Dashboard</div>
-        <div class="p-2 m-2">Today</div>
-        <div class="p-2 m-2 text-decoration-underline">Week</div>
-        <div class="p-2 m-2">Month</div>
-        <div class="p-2 m-2">Year</div>
-    </div>
+	<div class="bg-white d-flex justify-content-start">
+		<div class="p-2 m-2 border-right">Dashboard</div>
+		<div class="p-2 m-2">Today</div>
+		<div class="p-2 m-2 text-decoration-underline">Week</div>
+		<div class="p-2 m-2">Month</div>
+		<div class="p-2 m-2">Year</div>
+	</div>
 </div>
 <div class="container">
-    <div class="p-3 text-white d-flex justify-content-between">
-        <div class="text-black-50 ml-5">
-            <span class="row">Total Time</span>
-            <span class="row-cols-md-auto">100h</span>
-        </div>
-        <div class="text-black-50">
-            <span class="row">Top Project</span>
-            <span class="row-cols-md-auto">Design</span>
-        </div>
-        <div class="text-black-50 mr-5">
-            <span class="row">Top Client</span>
-            <span class="row-cols-md">Bradley</span>
-        </div>  
-    </div>
+	<div class="p-3 text-white d-flex justify-content-between">
+		<div class="text-black-50 ml-5">
+			<span class="row">Total Time</span>
+			<span class="row-cols-md-auto">100h</span>
+		</div>
+		<div class="text-black-50">
+			<span class="row">Top Project</span>
+			<span class="row-cols-md-auto">Design</span>
+		</div>
+		<div class="text-black-50 mr-5">
+			<span class="row">Top Client</span>
+			<span class="row-cols-md">Bradley</span>
+		</div>
+	</div>
 </div>
 <div class="container">
-    <SfChart>
-        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Days (this week)">
-        </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Time (Hours)">
-        </ChartPrimaryYAxis>
-        <ChartLegendSettings Visible="true"></ChartLegendSettings>
-        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
-        <ChartSeriesCollection>
-            <ChartSeries Type="ChartSeriesType.Column" DataSource="@Time"
-                         XName="Day" YName="SalesValue" Fill="#00A8E8" Name="Design">
-                <ChartMarker>
-                    <ChartDataLabel Visible="true"> </ChartDataLabel>
-                </ChartMarker>
-            </ChartSeries>
-        </ChartSeriesCollection>
-    </SfChart>
+	<SfChart>
+		<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Days (this week)">
+		</ChartPrimaryXAxis>
+		<ChartPrimaryYAxis Title="Time (Hours)">
+		</ChartPrimaryYAxis>
+		<ChartLegendSettings Visible="true"></ChartLegendSettings>
+		<ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+		<ChartSeriesCollection>
+			<ChartSeries Type="ChartSeriesType.Column" DataSource="@Time"
+						 XName="Day" YName="SalesValue" Fill="#00A8E8" Name="Design">
+				<ChartMarker>
+					<ChartDataLabel Visible="true"> </ChartDataLabel>
+				</ChartMarker>
+			</ChartSeries>
+		</ChartSeriesCollection>
+	</SfChart>
 </div>
 
-    @code {
-        public class SalesData
-        {
-            public string Day { get; set; }
-            public double SalesValue { get; set; }
-        }
+@code {
+	public class SalesData
+	{
+		public string Day { get; set; }
+		public double SalesValue { get; set; }
+	}
 
-        public List<SalesData> Time = new List<SalesData>
-    {
-        new SalesData { Day = "Monday", SalesValue = 10 },
-        new SalesData { Day = "Tuesday", SalesValue = 8 },
-        new SalesData { Day = "Wednesday", SalesValue = 20 },
-        new SalesData { Day = "Thursday", SalesValue = 6 },
-        new SalesData { Day = "Friday", SalesValue = 9 },
-        new SalesData { Day = "Saturday", SalesValue = 2 },
-        new SalesData { Day = "Sunday", SalesValue = 1 }
-    };
-    }
+	public List<SalesData> Time = new List<SalesData>
+{
+		new SalesData { Day = "Monday", SalesValue = 10 },
+		new SalesData { Day = "Tuesday", SalesValue = 8 },
+		new SalesData { Day = "Wednesday", SalesValue = 20 },
+		new SalesData { Day = "Thursday", SalesValue = 6 },
+		new SalesData { Day = "Friday", SalesValue = 9 },
+		new SalesData { Day = "Saturday", SalesValue = 2 },
+		new SalesData { Day = "Sunday", SalesValue = 1 }
+	};
+}
