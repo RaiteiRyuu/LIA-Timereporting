@@ -2,7 +2,7 @@
 @using Yourworktime.Web.Models
 @using Yourworktime.Core;
 @inject NavigationManager navigationManager
-@inject ServerHandler serverHandler
+@inject AuthService authService
 
 <div class="form">
 	<h2 class="title">Sign Up</h2>
@@ -71,17 +71,21 @@
 @code {
 	private SignUpModel signUpModel = new SignUpModel();
 	private bool showSignUpError = false;
+	private string signUpErrorMessage;
 
 	private async Task RegisterUser()
 	{
-		if (await serverHandler.UserService.AuthorizeUser(ModelConverter.ToUserModel(signUpModel)))
+		var result = await authService.SingUp(signUpModel);
+
+		if (result.Successful)
 		{
 			showSignUpError = false;
-			navigationManager.NavigateTo("/welcomemate");
+			navigationManager.NavigateTo("/accounts/signin");
 		}
 		else
 		{
 			showSignUpError = true;
+			signUpErrorMessage = string.Join('\n', result.Errors);
 		}
 	}
 

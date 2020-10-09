@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Yourworktime.Core;
+using Yourworktime.Web.Services;
 
 namespace Yourworktime.Web
 {
@@ -32,6 +35,8 @@ namespace Yourworktime.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
+            IServiceCollection s = services.AddBlazoredLocalStorage();
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -47,7 +52,13 @@ namespace Yourworktime.Web
                 };
             });
 
-            services.AddSingleton(new ServerHandler(Configuration));
+            ServerHandler serverHandler = new ServerHandler(Configuration);
+            services.AddScoped(implementation => serverHandler);
+            services.AddScoped(implementation => serverHandler.SignInService);
+            services.AddScoped(implementation => serverHandler.SignUpService);
+            services.AddScoped<ServerHandler>();
+            services.AddScoped<AuthService>();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

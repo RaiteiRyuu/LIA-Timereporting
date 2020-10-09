@@ -2,13 +2,13 @@
 
 namespace Yourworktime.Core.Services
 {
-    public readonly struct SigninResult : IResult
+    public readonly struct SignInResult : IResult
     {
         public bool Successful { get; }
         public IEnumerable<string> Errors { get; }
         public string Token { get; }
 
-        public SigninResult(bool succsessful, IEnumerable<string> errors, string token)
+        public SignInResult(bool succsessful, IEnumerable<string> errors, string token)
         {
             Successful = succsessful;
             Errors = errors;

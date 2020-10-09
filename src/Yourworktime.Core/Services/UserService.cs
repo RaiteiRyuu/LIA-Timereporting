@@ -3,11 +3,7 @@ using MongoDB.Driver;
 using MongoServer.Core.Models;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
@@ -21,58 +17,6 @@ namespace Yourworktime.Core.Services
         {
             this.database = database;
             this.tableName = tableName;
-        }
-
-        // Authenticate user (When signing in)
-        public async Task<bool> AuthenticateUser(string email, string password)
-        {
-            email = email.ToLower();
-
-            // Check if email exists.
-            List<UserModel> models = await LoadUsersByField("Email", email);
-            if (models.Count == 0)
-                return false;
-
-            // Get user by email.
-            UserModel user = models.First();
-
-            // Hash password with user salt.
-            string hashedPassword = Utils.ComputeSha256Hash(string.Concat(password, user.Salt));
-
-            // Compare hashed password with users hashed password.
-            return user.Password.Equals(hashedPassword);
-        }
-
-        // Authorize user (When signing up)
-        public async Task<bool> AuthorizeUser(UserModel model)
-        {
-            CleanUpUserModel(model);
-
-            // Check is email already exists.
-            if (await CountUsersByField("Email", model.Email) > 0)
-                return false;
-
-            // Create a hashed version of the password.
-            string salt = Utils.GetSalt(16);
-            string hashedPassword = Utils.ComputeSha256Hash(string.Concat(model.Password, salt));
-
-            // Set registration date.
-            DateTime dateNow = DateTime.UtcNow;
-
-            // Save user in database.
-            UserModel newUser = new UserModel()
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                Email = model.Email,
-                RegisteredDate = dateNow,
-                Salt = salt,
-                Password = hashedPassword
-
-            };
-            await InsertUser(newUser);
-
-            return true;
         }
 
         // Create
@@ -136,13 +80,6 @@ namespace Yourworktime.Core.Services
             var collection = database.GetCollection<UserModel>(tableName);
             var filter = Builders<UserModel>.Filter.Eq("Id", id);
             collection.DeleteOne(filter);
-        }
-
-        private void CleanUpUserModel(UserModel model)
-        {
-            model.FirstName = model.FirstName.UppercaseFirst().Trim();
-            model.LastName = model.LastName.UppercaseFirst().Trim();
-            model.Email = model.Email.ToLower().Trim();
         }
     }
 }

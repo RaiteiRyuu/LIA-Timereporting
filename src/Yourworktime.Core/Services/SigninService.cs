@@ -11,18 +11,18 @@ using System.Security.Claims;
 
 namespace Yourworktime.Core.Services
 {
-    public class SigninService
+    public class SignInService
     {
-        private IConfiguration configuration;
-        private UserService userService;
+        private readonly IConfiguration configuration;
+        private readonly UserService userService;
 
-        public SigninService(UserService userService, IConfiguration configuration)
+        public SignInService(UserService userService, IConfiguration configuration)
         {
             this.userService = userService;
             this.configuration = configuration;
         }
 
-        public async Task<SigninResult> SignIn(string email, string password)
+        public async Task<SignInResult> SignIn(string email, string password)
         {
             email = email.ToLower();
 
@@ -31,10 +31,10 @@ namespace Yourworktime.Core.Services
             if (user != null)
             {
                 string token = GenerateJSONWebToken(user);
-                return new SigninResult(true, new string[0], token);
+                return new SignInResult(true, new string[0], token);
             }
 
-            return new SigninResult(false, new string[] { "Wrong e-mail or password" }, null);
+            return new SignInResult(false, new string[] { "Wrong e-mail or password" }, null);
         }
 
         private async Task<UserModel> AuthenticateUser(string email, string password)
@@ -59,6 +59,7 @@ namespace Yourworktime.Core.Services
 
             var claims = new[]
             {
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),

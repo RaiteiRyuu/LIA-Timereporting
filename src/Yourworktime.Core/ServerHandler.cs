@@ -24,17 +24,29 @@ namespace Yourworktime.Core
         }
         private UserService _userService;
 
-        public SigninService SigninService 
+        public SignInService SignInService 
         {
             get 
             {
-                if (_signinService == null)
-                    _signinService = new SigninService(UserService, configuration);
+                if (_signInService == null)
+                    _signInService = new SignInService(UserService, configuration);
 
-                return _signinService;
+                return _signInService;
             }
         }
-        private SigninService _signinService;
+        private SignInService _signInService;
+
+        public SignUpService SignUpService
+        {
+            get
+            {
+                if (_signUpService == null)
+                    _signUpService = new SignUpService(UserService, configuration);
+
+                return _signUpService;
+            }
+        }
+        private SignUpService _signUpService;
 
         private MongoClient client 
         {

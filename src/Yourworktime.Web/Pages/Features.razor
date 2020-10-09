@@ -1,8 +1,15 @@
 ﻿@page "/Features"
-@attribute [Authorize]
 
 <h3>Features</h3>
 
-@code {
+<AuthorizeView>
+	<Authorized>
+		<h2>You are signed in!</h2>
+	</Authorized>
+	<NotAuthorized>
+		<h2>Please sign in before proceeding.</h2>
+	</NotAuthorized>
+</AuthorizeView>
 
+@code {
 }
