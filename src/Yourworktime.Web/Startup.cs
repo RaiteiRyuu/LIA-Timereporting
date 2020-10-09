@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using AKSoftware.Localization.MultiLanguages;
 using System.Reflection;
 using System.Globalization;
+using Syncfusion.Blazor;
 
 namespace Yourworktime.Web
 {
@@ -31,11 +32,13 @@ namespace Yourworktime.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddLanguageContainer(Assembly.GetExecutingAssembly(), CultureInfo.GetCultureInfo("sv-SE"));
+            services.AddSyncfusionBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("MzMwOTUxQDMxMzgyZTMzMmUzMFZjL0UvTFd3Q3g1QkxDdDErQXBLZkh1ZmRxSU9xUDVPZ0FXSUxUa0xPVDQ9");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
