@@ -10,18 +10,18 @@
     </div>
 </div>
 <div class="container">
-    <div class="p-3 text-white d-flex justify-content-between bg-dark-blue">
-        <div class="text-black-50">
-            <span>Total Time</span>
-            <span>100h</span>
+    <div class="p-3 text-white d-flex justify-content-between">
+        <div class="text-black-50 ml-5">
+            <span class="row">Total Time</span>
+            <span class="row-cols-md-auto">100h</span>
         </div>
         <div class="text-black-50">
-            <span>Top Project</span>
-            <span>100h</span>
+            <span class="row">Top Project</span>
+            <span class="row-cols-md-auto">Design</span>
         </div>
-        <div class="text-black-50">
-            <span>Top Client</span>
-            <span>100h</span>
+        <div class="text-black-50 mr-5">
+            <span class="row">Top Client</span>
+            <span class="row-cols-md">Bradley</span>
         </div>  
     </div>
 </div>
@@ -31,10 +31,11 @@
         </ChartPrimaryXAxis>
         <ChartPrimaryYAxis Title="Time (Hours)">
         </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
         <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
             <ChartSeries Type="ChartSeriesType.Column" DataSource="@Time"
-                         XName="Day" YName="SalesValue">
+                         XName="Day" YName="SalesValue" Fill="purple" Name="Design">
                 <ChartMarker>
                     <ChartDataLabel Visible="true"> </ChartDataLabel>
                 </ChartMarker>
