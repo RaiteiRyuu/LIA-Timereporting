@@ -1,7 +1,9 @@
 ﻿@page "/account/signup"
 @using Yourworktime.Web.Models
+@using Yourworktime.Core;
 @inject NavigationManager navigationManager
 @inject ILanguageContainerService languageContainer
+@inject AuthService authService
 
 <div class="form">
     <h2 class="title">@languageContainer.Keys["SignUp"]</h2>
@@ -50,10 +52,17 @@
             </div>
         </div>
 
-        <div class="text-center">
-            <p>@languageContainer.Keys["AlreadyHaveAccount"] <a href="/account/signin">@languageContainer.Keys["SignIn"]</a></p>
-        </div>
-    </EditForm>
+		@if (showSignUpError)
+		{
+			<div class="alert alert-danger">
+				<p>@signUpErrorMessage</p>
+			</div>
+		}
+
+		<div class="text-center">
+			<p>@languageContainer.Keys["AlreadyHaveAccount"] <a href="/account/signin">@languageContainer.Keys["SignIn"]</a></p>
+		</div>
+	</EditForm>
 </div>
 
 <div class="text-center">
@@ -61,11 +70,29 @@
 </div>
 
 @code {
-    private SignUpModel signUpModel = new SignUpModel();
+	private SignUpModel signUpModel = new SignUpModel();
+	private bool showSignUpError = false;
+	private string signUpErrorMessage;
 
-    private async Task RegisterUser()
-    {
-        // Register..
-        navigationManager.NavigateTo("/reporttime");
-    }
+	private async Task RegisterUser()
+	{
+		var result = await authService.SingUp(signUpModel);
+
+		if (result.Successful)
+		{
+			showSignUpError = false;
+			navigationManager.NavigateTo("/accounts/signin");
+		}
+		else
+		{
+			showSignUpError = true;
+			signUpErrorMessage = string.Join('\n', result.Errors);
+		}
+	}
+
+	private void OnEmailChanged()
+	{
+		if (showSignUpError)
+			showSignUpError = false;
+	}
 }
