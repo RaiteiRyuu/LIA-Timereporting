@@ -133,6 +133,10 @@ app {
     background-color: #003459 !important;
 }
 
+bg-light-blue {
+    background-color: #00A8E8 !important;
+}
+
 .navlink-white {
     color: #DCDCDC;
     padding: 30px;
