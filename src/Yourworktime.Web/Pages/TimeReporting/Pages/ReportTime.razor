@@ -20,7 +20,7 @@
             <span class="input-group-text" id="basic-addon2">@TimerOutput</span>
         </div>
         <div>
-            <button type="button" class="btn btn-filled-light-blue" @onclick="@StartTimer">Start</button>
+            <button type="button" class="btn @buttonColor" @onclick="OnToggleClick">@buttonName</button>
         </div>
     </div>
 </div>
@@ -98,9 +98,34 @@
     private int h, m, s;
     public static string TimerOutput { get; set; }
 
-    private void StartTimer()
+    //button variabels
+    private string buttonColor = "btn-filled-light-blue";
+    private string buttonName = "Start";
+
+    public void OnToggleClick()
+    {
+        if(buttonName == "Start")
+        {
+            StartTimer();
+        }
+        else
+        {
+            StopTimer();
+        }
+    }
+
+    public void StartTimer()
     {
         timer.Start();
+        buttonColor = "btn-danger";
+        buttonName = "Stop";
+    }
+
+    public void StopTimer()
+    {
+        timer.Stop();
+        buttonColor = "btn-filled-light-blue";
+        buttonName = "Start";
     }
 
     protected override void OnInitialized()
