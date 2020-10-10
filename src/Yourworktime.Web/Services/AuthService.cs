@@ -53,7 +53,7 @@ namespace Yourworktime.Web.Services
         public async Task Signout()
         {
             await localStorage.RemoveItemAsync("authToken");
-            ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsLoggedOut();
+            ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsSignedOut();
         }
     }
 }

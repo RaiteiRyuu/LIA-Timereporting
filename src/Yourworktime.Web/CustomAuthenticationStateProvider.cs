@@ -38,7 +38,7 @@ namespace Yourworktime.Web
             NotifyAuthenticationStateChanged(authState);
         }
 
-        public void MarkUserAsLoggedOut()
+        public void MarkUserAsSignedOut()
         {
             ClaimsPrincipal anonymousUser = new ClaimsPrincipal(new ClaimsIdentity());
             Task<AuthenticationState> authState = Task.FromResult(new AuthenticationState(anonymousUser));
