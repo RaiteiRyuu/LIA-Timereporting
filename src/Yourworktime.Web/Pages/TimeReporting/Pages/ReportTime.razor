@@ -1,6 +1,8 @@
 ﻿@page "/reporttime"
 @attribute [Authorize]
 
+
+
 <div class="mr-5">
     <div class="bg-white d-flex justify-content-start">
         <div class="p-2 m-2 border-right">Report Time</div>
@@ -15,10 +17,10 @@
     <div class="input-group mb-3 p-5">
         <input type="text" class="form-control" placeholder="What are you working on?" aria-label="Recipient's username" aria-describedby="basic-addon2">
         <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2">00:00:00</span>
+            <span class="input-group-text" id="basic-addon2">@TimerOutput</span>
         </div>
         <div>
-            <button type="button" class="btn btn-filled-light-blue">Start</button>
+            <button type="button" class="btn btn-filled-light-blue" @onclick="@StartTimer">Start</button>
         </div>
     </div>
 </div>
@@ -92,5 +94,46 @@
     </table>
 </div>
 @code {
+    private static System.Timers.Timer timer;
+    private int h, m, s;
+    public static string TimerOutput { get; set; }
+
+    private void StartTimer()
+    {
+        timer.Start();
+    }
+
+    protected override void OnInitialized()
+    {
+        TimerOutput = "00:00:00";
+        timer = new Timer();
+        timer.Interval = 1000;
+        timer.Elapsed += async (sender, args) =>
+        {
+            await InvokeAsync(() =>
+            {
+                IncreamentCount();
+                StateHasChanged();
+            });
+        };
+    }
+
+    private void IncreamentCount()
+    {
+        s += 1;
+        if (s == 60)
+        {
+            s = 0;
+            m += 1;
+
+        }
+        if (m == 60)
+        {
+            m = 0;
+            h += 1;
+        }
+        TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
+    }
 
 }
+
