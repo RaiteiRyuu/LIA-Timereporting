@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Yourworktime.Core.Models
 {
-    class ReportTimeModel
+    public class ReportTimeModel
     {
         public string Task { get; set; }
         public string Project { get; set; }
@@ -13,6 +13,6 @@ namespace Yourworktime.Core.Models
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public double Duration { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

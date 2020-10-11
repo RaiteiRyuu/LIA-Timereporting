@@ -2,7 +2,6 @@
 @attribute [Authorize]
 
 
-
 <div class="mr-5">
     <div class="bg-white d-flex justify-content-start">
         <div class="p-2 m-2 border-right">Report Time</div>
@@ -15,7 +14,7 @@
 
 <div class="container d-flex justify-content-center ">
     <div class="input-group mb-3 p-5">
-        <input type="text" class="form-control" placeholder="What are you working on? @Project" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="What are you working on?" @bind="_Task"  @bind:event="oninput" aria-label="Recipient's username" aria-describedby="basic-addon2">
         <div>
             <a class="btn border" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="/icons/folder.svg">
@@ -45,7 +44,7 @@
             $
         </button>
         <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2">@TimerOutput</span>
+            <span class="input-group-text" id="basic-addon2">@_TimerOutput</span>
         </div>
         <div>
             <button type="button" class="btn @buttonColor" @onclick="OnToggleClick">@buttonName</button>
@@ -78,65 +77,44 @@
                 <th scope="col"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">Server connections</th>
-                <td>Marketing</td>
-                <td>Business</td>
-                <td>09:00 - 11:00</td>
-                <td>2:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Server connections</th>
-                <td>Marketing</td>
-                <td>User interface</td>
-                <td>12:00 - 16:00</td>
-                <td>4:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Color fixes</th>
-                <td>Sallary</td>
-                <td>Business</td>
-                <td>11:00 - 11:45</td>
-                <td>1:45</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Design construction</th>
-                <td>Design</td>
-                <td>User Interface</td>
-                <td>12:00 - 16:00</td>
-                <td>4:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+        @foreach (var report in ReportList)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row">@report.Task</th>
+                    <td>@report.Project</td>
+                    <td>@report.Tag</td>
+                    <td>@report.StartTime - @report.EndTime</td>
+                    <td>@report.Duration</td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-filled-light-blue">Start</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        }
+
     </table>
 </div>
 @code {
-    public static string TimerOutput { get; set; }
 
-    
-    public static string Project { get; set; }
+    public static string _TimerOutput { get; set; }
 
-    public static string Tag { get; set; }
+    public static string _Task { get; set; }
+
+    public static string _Project { get; set; }
+
+    public static string _Tag { get; set; }
+
+    public static TimeSpan _StartTime { get; set; }
+
+    public static TimeSpan _EndTime { get; set; }
+
+    public static DateTime _CreationDate { get; set; }
+
+    public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
+
 
     #region timer vars
     private static System.Timers.Timer timer;
@@ -146,12 +124,12 @@
     #region button vars
     private string buttonColor = "btn-filled-light-blue";
     private string buttonName = "Start";
-    #endregion  
+    #endregion
 
     #region timer functions
     public void OnToggleClick()
     {
-        if(buttonName == "Start")
+        if (buttonName == "Start")
         {
             StartTimer();
         }
@@ -166,6 +144,9 @@
         timer.Start();
         buttonColor = "btn-danger";
         buttonName = "Stop";
+
+        _StartTime = DateTime.UtcNow.TimeOfDay;
+        _CreationDate = DateTime.UtcNow.Date;
     }
 
     public void StopTimer()
@@ -173,11 +154,22 @@
         timer.Stop();
         buttonColor = "btn-filled-light-blue";
         buttonName = "Start";
+        _EndTime = DateTime.UtcNow.TimeOfDay;
+        ReportList.Add(new ReportTimeModel
+        {
+            Task = _Task,
+            Project = _Project,
+            Tag = _Tag,
+            StartTime = _StartTime,
+            EndTime = _EndTime,
+            Duration = (_EndTime.TotalHours - _StartTime.TotalHours),
+            CreationDate = _CreationDate
+        });
     }
 
     protected override void OnInitialized()
     {
-        TimerOutput = "00:00:00";
+        _TimerOutput = "00:00:00";
         timer = new Timer();
         timer.Interval = 1000;
         timer.Elapsed += async (sender, args) =>
@@ -204,7 +196,7 @@
             m = 0;
             h += 1;
         }
-        TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
+        _TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
     }
     #endregion
 
@@ -226,12 +218,13 @@
 
     public void SelectedProject(string project)
     {
-        Project = project;
+        _Project = project;
     }
 
     public void SelectedTag(string tag)
     {
-        Tag = tag;
+        _Tag = tag;
     }
+
 }
 
