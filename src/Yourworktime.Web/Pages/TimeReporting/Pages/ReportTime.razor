@@ -107,9 +107,9 @@
 
     public static string _Tag { get; set; }
 
-    public static TimeSpan _StartTime { get; set; }
+    public static DateTime _StartTime { get; set; }
 
-    public static TimeSpan _EndTime { get; set; }
+    public static DateTime _EndTime { get; set; }
 
     public static DateTime _CreationDate { get; set; }
 
@@ -147,7 +147,7 @@
         buttonColor = "btn-danger";
         buttonName = "Stop";
 
-        _StartTime = DateTime.UtcNow.TimeOfDay;
+        _StartTime = DateTime.Now;
         _CreationDate = DateTime.UtcNow.Date;
     }
 
@@ -156,15 +156,15 @@
         timer.Stop();
         buttonColor = "btn-filled-light-blue";
         buttonName = "Start";
-        _EndTime = DateTime.UtcNow.TimeOfDay;
+        _EndTime = DateTime.Now;
         ReportList.Add(new ReportTimeModel
         {
             Task = _Task,
             Project = _Project,
             Tag = _Tag,
-            StartTime = _StartTime,
-            EndTime = _EndTime,
-            Duration = (_EndTime.TotalHours - _StartTime.TotalHours),
+            StartTime = _StartTime.ToString("HH:mm:ss"),
+            EndTime = _EndTime.ToString("HH:mm:ss"),
+            Duration = (String.Format("{0}:{1}:{2}", _EndTime.Subtract(_StartTime).Hours, _EndTime.Subtract(_StartTime).Minutes, _EndTime.Subtract(_StartTime).Seconds)),
             CreationDate = _CreationDate
         });
         s = 0;
@@ -173,11 +173,13 @@
         _TimerOutput = "00:00:00";
         _Task = "";
 
+        //foreach (var report in ReportList)
+        //{
+        //    DateTime totalTime;
 
-        foreach (var report in ReportList)
-        {
-            TotalTime += report.Duration;
-        }
+        //    totalTime = Convert.ToDateTime(report.Duration);
+        //    TotalTime += Convert.ToDouble(totalTime);
+        //}
     }
 
     protected override void OnInitialized()
