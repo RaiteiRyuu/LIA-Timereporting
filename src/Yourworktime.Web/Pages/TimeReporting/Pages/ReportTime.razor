@@ -64,7 +64,7 @@
             <img src="/icons/caret-right-fill.svg">
         </button>
         <span class="p2 align-self-center">Wednesday, 23 Sep (Today)</span>
-        <span class="ml-auto mr-5 align-self-center">Total: 7:45</span>
+        <span class="ml-auto mr-5 align-self-center">Total: @TotalTime</span>
     </div>
     <table class="table table-light">
         <thead class="thead-dark">
@@ -114,6 +114,8 @@
     public static DateTime _CreationDate { get; set; }
 
     public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
+
+    public static double TotalTime { get; set; }
 
 
     #region timer vars
@@ -170,6 +172,12 @@
         h = 0;
         _TimerOutput = "00:00:00";
         _Task = "";
+
+
+        foreach (var report in ReportList)
+        {
+            TotalTime += report.Duration;
+        }
     }
 
     protected override void OnInitialized()
@@ -230,6 +238,8 @@
     {
         _Tag = tag;
     }
+
+
 
 }
 
