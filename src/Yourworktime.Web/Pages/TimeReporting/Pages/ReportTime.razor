@@ -14,10 +14,11 @@
 
 <div class="container d-flex justify-content-center ">
     <div class="input-group mb-3 p-5">
-        <input type="text" class="form-control" placeholder="What are you working on?" @bind="_Task"  @bind:event="oninput" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="What are you working on?" @bind="reportimemodel.Task"  @bind:event="oninput" aria-label="Recipient's username" aria-describedby="basic-addon2">
         <div>
             <a class="btn border" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="/icons/folder.svg">
+                <span>@reportimemodel.Project</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var project in ProjectsList)
@@ -30,6 +31,7 @@
         <div>
             <a class="btn border" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <img src="/icons/tag.svg">
+                <span>@reportimemodel.Tag</span>
             </a>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 @foreach (var tag in TagsList)
@@ -44,7 +46,7 @@
             $
         </button>
         <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2">@_TimerOutput</span>
+            <span class="input-group-text" id="basic-addon2">@TimerOutput</span>
         </div>
         <div>
             <button type="button" class="btn @buttonColor" @onclick="OnToggleClick">@buttonName</button>
@@ -84,8 +86,8 @@
                     <th scope="row">@report.Task</th>
                     <td>@report.Project</td>
                     <td>@report.Tag</td>
-                    <td>@report.StartTime - @report.EndTime</td>
-                    <td>@report.Duration</td>
+                    <td>@report.StartTime.ToString("HH:mm:ss") - @report.EndTime.ToString("HH:mm:ss")</td>
+                    <td>@(String.Format("{0}:{1}:{2}", report.Duration.Hours, report.Duration.Minutes, report.Duration.Seconds))</td>
                     <td>
                         <div>
                             <button type="button" class="btn btn-filled-light-blue">Start</button>
@@ -102,7 +104,7 @@
 </div>
 @code {
 
-    public static string _TimerOutput { get; set; }
+    public static string TimerOutput { get; set; }
 
     public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
 
@@ -141,7 +143,7 @@
         buttonName = "Stop";
 
         reportimemodel.StartTime = DateTime.Now;
-        reportimemodel.CreationDate = DateTime.UtcNow.Date;
+        reportimemodel.CreationDate = DateTime.Now.Date;
     }
 
     public void StopTimer()
@@ -150,34 +152,23 @@
         buttonColor = "btn-filled-light-blue";
         buttonName = "Start";
         reportimemodel.EndTime = DateTime.Now;
-        ReportList.Add(new ReportTimeModel
-        {
-            Task = _Task,
-            Project = _Project,
-            Tag = _Tag,
-            StartTime = _StartTime.ToString("HH:mm:ss"),
-            EndTime = _EndTime.ToString("HH:mm:ss"),
-            Duration = (String.Format("{0}:{1}:{2}", _EndTime.Subtract(_StartTime).Hours, _EndTime.Subtract(_StartTime).Minutes, _EndTime.Subtract(_StartTime).Seconds)),
-            CreationDate = _CreationDate
-        });
+        reportimemodel.Duration = reportimemodel.EndTime.Subtract(reportimemodel.StartTime);
+        ReportList.Add(reportimemodel);
         s = 0;
         m = 0;
         h = 0;
-        _TimerOutput = "00:00:00";
-        _Task = "";
-
+        TimerOutput = "00:00:00";
+        reportimemodel = new ReportTimeModel();
+        Console.WriteLine();
         //foreach (var report in ReportList)
         //{
-        //    DateTime totalTime;
-
-        //    totalTime = Convert.ToDateTime(report.Duration);
-        //    TotalTime += Convert.ToDouble(totalTime);
+        //    TotalTime += Convert.ToDouble(report.Duration);
         //}
     }
 
     protected override void OnInitialized()
     {
-        _TimerOutput = "00:00:00";
+        TimerOutput = "00:00:00";
         timer = new Timer();
         timer.Interval = 1000;
         timer.Elapsed += async (sender, args) =>
@@ -204,7 +195,7 @@
             m = 0;
             h += 1;
         }
-        _TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
+        TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
     }
     #endregion
 
@@ -226,12 +217,12 @@
 
     public void SelectedProject(string project)
     {
-        _Project = project;
+        reportimemodel.Project = project;
     }
 
     public void SelectedTag(string tag)
     {
-        _Tag = tag;
+        reportimemodel.Tag = tag;
     }
 
     public void DeletedReportFromList(ReportTimeModel report)
