@@ -45,7 +45,7 @@ namespace Yourworktime.Web.Services
             if (signInModel.StaySignedIn)
                 await localStorage.SetItemAsync("authToken", signInResult.Token);
 
-            ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsAuthenticated(signInModel.Email);
+            ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsAuthenticated(signInResult.Token);
 
             return signInResult;
         }
