@@ -39,7 +39,7 @@ namespace Yourworktime.Web
             services.AddRazorPages();
             services.AddServerSideBlazor();
             
-            services.AddLanguageContainer(Assembly.GetExecutingAssembly(), CultureInfo.GetCultureInfo("sv-SE"));
+            services.AddLanguageContainer(Assembly.GetExecutingAssembly(), CultureInfo.GetCultureInfo("en-US"));
             services.AddSyncfusionBlazor();
 
             services.AddBlazoredLocalStorage();
