@@ -89,6 +89,9 @@
                     <td>
                         <div>
                             <button type="button" class="btn btn-filled-light-blue">Start</button>
+                            <button type="button" class="" @onclick="() => DeletedReportFromList(report)">
+                                <img src="/icons/pencil-square.svg">
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -101,21 +104,11 @@
 
     public static string _TimerOutput { get; set; }
 
-    public static string _Task { get; set; }
-
-    public static string _Project { get; set; }
-
-    public static string _Tag { get; set; }
-
-    public static DateTime _StartTime { get; set; }
-
-    public static DateTime _EndTime { get; set; }
-
-    public static DateTime _CreationDate { get; set; }
-
     public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
 
     public static double TotalTime { get; set; }
+
+    private ReportTimeModel reportimemodel = new ReportTimeModel();
 
 
     #region timer vars
@@ -147,8 +140,8 @@
         buttonColor = "btn-danger";
         buttonName = "Stop";
 
-        _StartTime = DateTime.Now;
-        _CreationDate = DateTime.UtcNow.Date;
+        reportimemodel.StartTime = DateTime.Now;
+        reportimemodel.CreationDate = DateTime.UtcNow.Date;
     }
 
     public void StopTimer()
@@ -156,7 +149,7 @@
         timer.Stop();
         buttonColor = "btn-filled-light-blue";
         buttonName = "Start";
-        _EndTime = DateTime.Now;
+        reportimemodel.EndTime = DateTime.Now;
         ReportList.Add(new ReportTimeModel
         {
             Task = _Task,
@@ -241,7 +234,10 @@
         _Tag = tag;
     }
 
-
+    public void DeletedReportFromList(ReportTimeModel report)
+    {
+        ReportList.Remove(report);
+    }
 
 }
 

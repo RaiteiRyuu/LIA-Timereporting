@@ -10,9 +10,9 @@ namespace Yourworktime.Core.Models
         public string Task { get; set; }
         public string Project { get; set; }
         public string Tag { get; set; }
-        public string StartTime { get; set; }
-        public string EndTime { get; set; }
-        public string Duration { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public DateTime Duration { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }
