@@ -21,7 +21,7 @@ namespace Yourworktime.Core.Services
             CleanUpUserModel(model);
 
             if (await userService.CountUsersByField("Email", model.Email) > 0)
-                return new SignUpResult(false, new string[] { "An account with this E-mail already exists" });
+                return new SignUpResult(false, new string[] { "An account with this E-mail already exists" }, null);
 
             string salt = Utils.GetSalt(16);
             string hashedPassword = Utils.ComputeSha256Hash(string.Concat(model.Password, salt));
@@ -30,6 +30,7 @@ namespace Yourworktime.Core.Services
 
             UserModel newUser = new UserModel()
             {
+                Id = new Guid(),
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 FullName = $"{model.FirstName} {model.LastName}",
@@ -42,7 +43,7 @@ namespace Yourworktime.Core.Services
             };
             await userService.InsertUser(newUser);
 
-            return new SignUpResult(true, new string[0]);
+            return new SignUpResult(true, new string[0], newUser);
         }
 
         private void CleanUpUserModel(UserModel model)

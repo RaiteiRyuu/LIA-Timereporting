@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MongoServer.Core.Models;
+using System.Collections.Generic;
 
 namespace Yourworktime.Core.Services
 {
@@ -6,11 +7,13 @@ namespace Yourworktime.Core.Services
     {
         public bool Successful { get; }
         public IEnumerable<string> Errors { get; }
+        public UserModel User { get; }
 
-        public SignUpResult(bool successful, IEnumerable<string> errors)
+        public SignUpResult(bool successful, IEnumerable<string> errors, UserModel user)
         {
             Successful = successful;
             Errors = errors;
+            User = user;
         }
     }
 }

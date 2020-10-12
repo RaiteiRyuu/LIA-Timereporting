@@ -1,18 +1,20 @@
-﻿<div class="h-100">
+﻿@using Yourworktime.Core.Models
+@inject Core.ServerHandler serverHandler
+ 
+<div class="h-100">
     <div class="top-row pl-4 navbar shadow-sm bg-white">
 
         <div class="d-flex justify-content-start">
             <div class="image-container">
-                <img src="/images/workspace_logo.png">
+                <img src="/images/Image 4.png">
             </div>
             <div class="text-black-50 m-2 pl-2 my-auto">
-                <h3>Cryptica</h3>
+                <h4  data-toggle="tooltip" data-placement="right" title="@workspaceModel.Name">@workspaceModel.Name</h4>
                 <p class="text--left">Workspace</p>
             </div>
         </div>
 
     </div>
-
 
     <div class="">
         <div class="nav flex-column shadow bg-white d-flex justify-content-between position-absolute h-100 w-100">
@@ -48,6 +50,20 @@
         </div>
     </div>
 </div>
-@code {
 
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    public WorkspaceModel workspaceModel = new WorkspaceModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var userIdClaim = authState.User.Claims.First(x => x.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.NameId);
+
+        var userWorkspaces = await serverHandler.WorkspaceService.LoadWorkspacesOfUserOwner(new Guid(userIdClaim.Value));
+
+        workspaceModel = userWorkspaces.First();
+    }
 }

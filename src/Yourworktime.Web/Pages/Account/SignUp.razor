@@ -4,6 +4,7 @@
 @inject NavigationManager navigationManager
 @inject ILanguageContainerService languageContainer
 @inject AuthService authService
+@inject ServerHandler serverHandler 
 
 <div class="form">
     <h2 class="title">@languageContainer.Keys["SignUp"]</h2>
@@ -53,11 +54,11 @@
         </div>
 
 		@if (showSignUpError)
-		{
+        {
 			<div class="alert alert-danger">
 				<p>@signUpErrorMessage</p>
 			</div>
-		}
+        }
 
 		<div class="text-center">
 			<p>@languageContainer.Keys["AlreadyHaveAccount"] <a href="/account/signin">@languageContainer.Keys["SignIn"]</a></p>
@@ -70,29 +71,39 @@
 </div>
 
 @code {
-	private SignUpModel signUpModel = new SignUpModel();
-	private bool showSignUpError = false;
-	private string signUpErrorMessage;
+    private SignUpModel signUpModel = new SignUpModel();
+    private bool showSignUpError = false;
+    private string signUpErrorMessage;
 
-	private async Task RegisterUser()
-	{
-		var result = await authService.SingUp(signUpModel);
+    private async Task RegisterUser()
+    {
+        var result = await authService.SingUp(signUpModel);
 
-		if (result.Successful)
-		{
-			showSignUpError = false;
-			navigationManager.NavigateTo("/account/signin");
-		}
-		else
-		{
-			showSignUpError = true;
-			signUpErrorMessage = string.Join('\n', result.Errors);
-		}
-	}
+        if (result.Successful)
+        {
+            showSignUpError = false;
 
-	private void OnEmailChanged()
-	{
-		if (showSignUpError)
-			showSignUpError = false;
-	}
+            var workspace = new Core.Models.WorkspaceModel()
+            {
+                Name = $"{result.User.FirstName}'s Workspace",
+                RegisteredTime = DateTime.UtcNow,
+                Owner = result.User.Id,
+                Members = new Guid[] {result.User.Id}
+            };
+            await serverHandler.WorkspaceService.InsertWorkspace(workspace);
+
+            navigationManager.NavigateTo("/account/signin");
+        }
+        else
+        {
+            showSignUpError = true;
+            signUpErrorMessage = string.Join('\n', result.Errors);
+        }
+    }
+
+    private void OnEmailChanged()
+    {
+        if (showSignUpError)
+            showSignUpError = false;
+    }
 }

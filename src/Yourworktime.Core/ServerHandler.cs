@@ -9,20 +9,34 @@ namespace Yourworktime.Core
 {
     public class ServerHandler
     {
-        private static string userDbName = "database";
+        private static string databaseName = "database";
         private static string userTableName = "users";
+        public static string workspacetableName = "workspace";
 
         public UserService UserService 
         {
             get
             {
                 if (_userService == null)
-                    _userService = new UserService(client.GetDatabase(userDbName), userTableName);
+                    _userService = new UserService(client.GetDatabase(databaseName), userTableName);
 
                 return _userService;
             }
         }
         private UserService _userService;
+
+
+        public WorkspaceService WorkspaceService
+        {
+            get
+            {
+                if (_workspaceService == null)
+                    _workspaceService = new WorkspaceService(client.GetDatabase(databaseName), workspacetableName);
+
+                return _workspaceService;
+            }
+        }
+        private WorkspaceService _workspaceService;
 
         public SignInService SignInService 
         {
