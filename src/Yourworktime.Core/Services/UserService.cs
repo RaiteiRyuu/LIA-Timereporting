@@ -41,9 +41,9 @@ namespace Yourworktime.Core.Services
             var filter = Builders<UserModel>.Filter.Eq("Id", id);
 
             var found = await collection.FindAsync(filter);
-            if (!found.Any())
-                return null;
-            return found.First();
+
+            var sfoundList = found.ToList();
+            return sfoundList.Count == 0 ? null : sfoundList.First();
         }
 
         public async Task<List<UserModel>> LoadUsersByField<T>(string field, T value)
@@ -69,9 +69,9 @@ namespace Yourworktime.Core.Services
             var collection = database.GetCollection<UserModel>(tableName);
 
             var result = collection.ReplaceOne(
-                new BsonDocument("_id", id),
-                user,
-                new ReplaceOptions { IsUpsert = true });
+                filter: new BsonDocument("Id", id),
+                options: new ReplaceOptions { IsUpsert = true },
+                replacement: user);
         }
 
         // Delete

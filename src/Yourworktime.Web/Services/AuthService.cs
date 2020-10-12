@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Yourworktime.Core;
 using Yourworktime.Core.Services;
 using Yourworktime.Web.Models;
 
@@ -13,17 +14,17 @@ namespace Yourworktime.Web.Services
     public class AuthService
     {
         private readonly AuthenticationStateProvider authenticationStateProvider;
-        private readonly ILocalStorageService localStorage;
+        private readonly ServerHandler serverHandler;
         private readonly SignUpService signUpService;
         private readonly SignInService signInService;
 
-        public AuthService(AuthenticationStateProvider authenticationStateProvider, 
-            ILocalStorageService localStorage, 
+        public AuthService(AuthenticationStateProvider authenticationStateProvider,
+            ServerHandler serverHandler, 
             SignUpService signUpService,
             SignInService signInService)
         {
             this.authenticationStateProvider = authenticationStateProvider;
-            this.localStorage = localStorage;
+            this.serverHandler = serverHandler;
             this.signUpService = signUpService;
             this.signInService = signInService;
         }
@@ -43,7 +44,7 @@ namespace Yourworktime.Web.Services
                 return signInResult;
 
             if (signInModel.StaySignedIn)
-                await localStorage.SetItemAsync("authToken", signInResult.Token);
+                await serverHandler.StorageService.UpsertItem("authToken", signInResult.Token);
 
             ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsAuthenticated(signInResult.Token);
 
@@ -52,7 +53,7 @@ namespace Yourworktime.Web.Services
 
         public async Task Signout()
         {
-            await localStorage.RemoveItemAsync("authToken");
+            await serverHandler.StorageService.DeleteItem("authToken");
             ((CustomAuthenticationStateProvider)authenticationStateProvider).MarkUserAsSignedOut();
         }
     }

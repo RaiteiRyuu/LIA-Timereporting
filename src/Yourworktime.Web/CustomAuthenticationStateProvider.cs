@@ -6,29 +6,29 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Yourworktime.Core;
+using Yourworktime.Core.Models;
 
 namespace Yourworktime.Web
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly ILocalStorageService localStorage;
+        private readonly ServerHandler serverHandler;
 
-        public CustomAuthenticationStateProvider(ILocalStorageService storageService)
+        public CustomAuthenticationStateProvider(ServerHandler serverHandler)
         {
-            localStorage = storageService;
+            this.serverHandler = serverHandler;
         }
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            //string savedToken = await localStorage.GetItemAsync<string>("authToken");
+            LocalStorageModel storageModel = await serverHandler.StorageService.LoadItemByKey("authToken");
+            string savedToken = storageModel?.Value as string ?? "";
 
-            //if (string.IsNullOrWhiteSpace(savedToken))
-            //{
-            //    return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
-            //}
+            if (string.IsNullOrWhiteSpace(savedToken))
+                return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
 
-            //return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
-            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
+            return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity(ParseClaimsFromJwt(savedToken), "jwt")));
         }
 
         public void MarkUserAsAuthenticated(string token)
