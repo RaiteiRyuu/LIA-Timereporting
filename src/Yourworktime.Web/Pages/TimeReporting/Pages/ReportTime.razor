@@ -1,31 +1,72 @@
 ﻿@page "/reporttime"
 @attribute [Authorize]
 
+
 <div class="mr-5">
     <div class="bg-white d-flex justify-content-start">
         <div class="p-2 m-2 border-right">Report Time</div>
-        <div class="p-2 m-2 text-decoration-underline">Today</div>
+        <div class="p-2 m-2 text-decoration-underline">Day</div>
         <div class="p-2 m-2">Week</div>
         <div class="p-2 m-2">Month</div>
+        <div class="p-2 m-2">Year</div>
     </div>
 </div>
 
 <div class="container d-flex justify-content-center ">
     <div class="input-group mb-3 p-5">
-        <input type="text" class="form-control" placeholder="What are you working on?" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="What are you working on?" @bind="reportimemodel.Task"  @bind:event="oninput" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div>
+            <a class="btn border" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/icons/folder.svg">
+                <span>@reportimemodel.Project</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @foreach (var project in ProjectsList)
+                {
+                    <button type="button" @onclick="() => SelectedProject(project)" class="dropdown-item">@project</button>
+                }
+            </div>
+        </div>
+
+        <div>
+            <a class="btn border" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="/icons/tag.svg">
+                <span>@reportimemodel.Tag</span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                @foreach (var tag in TagsList)
+                {
+                    <button type="button" @onclick="() => SelectedTag(tag)" class="dropdown-item">@tag</button>
+                }
+            </div>
+        </div>
+
+
+        <button type="button" class="btn border">
+            $
+        </button>
         <div class="input-group-append">
-            <span class="input-group-text" id="basic-addon2">00:00:00</span>
+            <span class="input-group-text" id="basic-addon2">@TimerOutput</span>
         </div>
         <div>
-            <button type="button" class="btn btn-filled-light-blue">Start</button>
+            <button type="button" class="btn @buttonColor" @onclick="OnToggleClick">@buttonName</button>
         </div>
     </div>
 </div>
 
 <div class="container">
     <div class="border bg-dark-blue p-3 text-white d-flex">
-        <span class="p2">Wednesday, 23 Sep (Today)</span>
-        <span class="ml-auto p2 mr-5">Total: 7:45</span>
+        <button type="button" class="btn">
+            <img src="/icons/calendar3.svg">
+        </button>
+        <button type="button" class="btn">
+            <img src="/icons/caret-left-fill.svg">
+        </button>
+        <button type="button" class="btn">
+            <img src="/icons/caret-right-fill.svg">
+        </button>
+        <span class="p2 align-self-center">Wednesday, 23 Sep (Today)</span>
+        <span class="ml-auto mr-5 align-self-center">Total: @TotalTime</span>
     </div>
     <table class="table table-light">
         <thead class="thead-dark">
@@ -38,58 +79,156 @@
                 <th scope="col"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <th scope="row">Server connections</th>
-                <td>Marketing</td>
-                <td>Business</td>
-                <td>09:00 - 11:00</td>
-                <td>2:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Server connections</th>
-                <td>Marketing</td>
-                <td>User interface</td>
-                <td>12:00 - 16:00</td>
-                <td>4:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Color fixes</th>
-                <td>Sallary</td>
-                <td>Business</td>
-                <td>11:00 - 11:45</td>
-                <td>1:45</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <th scope="row">Design construction</th>
-                <td>Design</td>
-                <td>User Interface</td>
-                <td>12:00 - 16:00</td>
-                <td>4:00</td>
-                <td>
-                    <div>
-                        <button type="button" class="btn btn-filled-light-blue">Start</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
+        @foreach (var report in ReportList)
+        {
+            <tbody>
+                <tr>
+                    <th scope="row">@report.Task</th>
+                    <td>@report.Project</td>
+                    <td>@report.Tag</td>
+                    <td>@report.StartTime.ToString("HH:mm:ss") - @report.EndTime.ToString("HH:mm:ss")</td>
+                    <td>@(String.Format("{0}:{1}:{2}", report.Duration.Hours, report.Duration.Minutes, report.Duration.Seconds))</td>
+                    <td>
+                        <div>
+                            <button type="button" class="btn btn-filled-light-blue">Start</button>
+                            <button type="button" class="" @onclick="() => DeletedReportFromList(report)">
+                                <img src="/icons/pencil-square.svg">
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        }
+
     </table>
 </div>
 @code {
 
+    public static string TimerOutput { get; set; }
+
+    public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
+
+    public static double TotalTime { get; set; }
+
+    private ReportTimeModel reportimemodel = new ReportTimeModel();
+
+
+    #region timer vars
+    private static System.Timers.Timer timer;
+    private int h, m, s;
+    #endregion
+
+    #region button vars
+    private string buttonColor = "btn-filled-light-blue";
+    private string buttonName = "Start";
+    #endregion
+
+    #region timer functions
+    public void OnToggleClick()
+    {
+        if (buttonName == "Start")
+        {
+            StartTimer();
+        }
+        else
+        {
+            StopTimer();
+        }
+    }
+
+    public void StartTimer()
+    {
+        timer.Start();
+        buttonColor = "btn-danger";
+        buttonName = "Stop";
+
+        reportimemodel.StartTime = DateTime.Now;
+        reportimemodel.CreationDate = DateTime.Now.Date;
+    }
+
+    public void StopTimer()
+    {
+        timer.Stop();
+        buttonColor = "btn-filled-light-blue";
+        buttonName = "Start";
+        reportimemodel.EndTime = DateTime.Now;
+        reportimemodel.Duration = reportimemodel.EndTime.Subtract(reportimemodel.StartTime);
+        ReportList.Add(reportimemodel);
+        s = 0;
+        m = 0;
+        h = 0;
+        TimerOutput = "00:00:00";
+        reportimemodel = new ReportTimeModel();
+        Console.WriteLine();
+        //foreach (var report in ReportList)
+        //{
+        //    TotalTime += Convert.ToDouble(report.Duration);
+        //}
+    }
+
+    protected override void OnInitialized()
+    {
+        TimerOutput = "00:00:00";
+        timer = new Timer();
+        timer.Interval = 1000;
+        timer.Elapsed += async (sender, args) =>
+        {
+            await InvokeAsync(() =>
+            {
+                IncreamentCount();
+                StateHasChanged();
+            });
+        };
+    }
+
+    private void IncreamentCount()
+    {
+        s += 1;
+        if (s == 60)
+        {
+            s = 0;
+            m += 1;
+
+        }
+        if (m == 60)
+        {
+            m = 0;
+            h += 1;
+        }
+        TimerOutput = string.Format("{0}:{1}:{2}", h.ToString().PadLeft(2, '0'), m.ToString().PadLeft(2, '0'), s.ToString().PadLeft(2, '0'));
+    }
+    #endregion
+
+    public List<string> ProjectsList = new List<string>
+    (
+        new string[] {
+            "Marketing",
+            "Design",
+            "Production" }
+    );
+
+    public List<string> TagsList = new List<string>
+    (
+    new string[] {
+            "Main",
+            "Business",
+            "Classfied" }
+    );
+
+    public void SelectedProject(string project)
+    {
+        reportimemodel.Project = project;
+    }
+
+    public void SelectedTag(string tag)
+    {
+        reportimemodel.Tag = tag;
+    }
+
+    public void DeletedReportFromList(ReportTimeModel report)
+    {
+        ReportList.Remove(report);
+    }
+
 }
+
