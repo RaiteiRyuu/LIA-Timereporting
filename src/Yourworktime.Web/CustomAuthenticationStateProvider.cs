@@ -31,9 +31,9 @@ namespace Yourworktime.Web
             return new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity()));
         }
 
-        public void MarkUserAsAuthenticated(string email)
+        public void MarkUserAsAuthenticated(string token)
         {
-            ClaimsPrincipal authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, email) }, "apiauth"));
+            ClaimsPrincipal authenticatedUser = new ClaimsPrincipal(new ClaimsIdentity(new ClaimsIdentity(ParseClaimsFromJwt(token), "apiauth")));
             Task<AuthenticationState> authState = Task.FromResult(new AuthenticationState(authenticatedUser));
             NotifyAuthenticationStateChanged(authState);
         }
