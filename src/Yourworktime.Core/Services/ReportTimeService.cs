@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
 {
-    class ReportTimeService
+    public class ReportTimeService
     {
         private IMongoDatabase database;
         private string tableName;

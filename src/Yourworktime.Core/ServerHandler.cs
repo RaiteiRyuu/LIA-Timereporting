@@ -24,6 +24,18 @@ namespace Yourworktime.Core
         }
         private UserService _userService;
 
+        public ReportTimeService ReportTimeService
+        {
+            get
+            {
+                if (_reportTimeService == null)
+                    _reportTimeService = new ReportTimeService(client.GetDatabase(userDbName), userTableName);
+
+                return _reportTimeService;
+            }
+        }
+        private ReportTimeService _reportTimeService;
+
         public SignInService SignInService 
         {
             get 
