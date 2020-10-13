@@ -1,15 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,8 +34,8 @@ namespace Yourworktime.Web
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            
-            services.AddLanguageContainer(Assembly.GetExecutingAssembly(), CultureInfo.GetCultureInfo("en-US"));
+
+            services.AddLanguageContainer(Assembly.GetExecutingAssembly(), CultureInfo.GetCultureInfo(CultureInfo.CurrentCulture.Name));
             services.AddSyncfusionBlazor();
 
             services.AddBlazoredLocalStorage();
@@ -90,7 +84,7 @@ namespace Yourworktime.Web
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
-                FileProvider = new PhysicalFileProvider(@"C:\Users\Dator 6\source\repos\cryptica\LIA-timereporting\data"),
+                FileProvider = new PhysicalFileProvider(Path.GetFullPath(@"..\..\data")),
                 RequestPath = "/data"
             });
 

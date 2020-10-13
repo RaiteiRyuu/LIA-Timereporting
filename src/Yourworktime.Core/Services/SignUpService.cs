@@ -30,7 +30,7 @@ namespace Yourworktime.Core.Services
             DateTime dateNow = DateTime.UtcNow;
 
             Guid id = Guid.NewGuid();
-            string profileImagePath = $"W_{dateNow:yyyyMMddhhmm}_{id}.png";
+            string profileImagePath = $"U_{dateNow:yyyyMMddhhmm}_{id}.png";
             UserModel newUser = new UserModel()
             {
                 Id = id,
@@ -47,7 +47,7 @@ namespace Yourworktime.Core.Services
             };
             await userService.InsertUser(newUser);
 
-            Utils.CreateAndSaveProfileImage($"{newUser.FirstName.First()}W", 100, 100, $"../../data/profilePics/{profileImagePath}");
+            Utils.CreateAndSaveProfileImage($"{model.FirstName.First()}{model.LastName.First()}", 100, 100, $"../../data/profilePics/{profileImagePath}");
             return new SignUpResult(true, new string[0], newUser);
         }
 

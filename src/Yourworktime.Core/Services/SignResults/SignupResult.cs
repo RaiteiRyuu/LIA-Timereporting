@@ -1,4 +1,4 @@
-﻿using MongoServer.Core.Models;
+﻿using Yourworktime.Core.Models;
 using System.Collections.Generic;
 
 namespace Yourworktime.Core.Services

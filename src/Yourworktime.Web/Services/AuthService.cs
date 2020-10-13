@@ -1,9 +1,4 @@
-﻿using Blazored.LocalStorage;
-using Microsoft.AspNetCore.Components.Authorization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using System.Threading.Tasks;
 using Yourworktime.Core;
 using Yourworktime.Core.Services;
