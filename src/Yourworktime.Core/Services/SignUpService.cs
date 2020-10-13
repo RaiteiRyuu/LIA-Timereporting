@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MongoServer.Core.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
@@ -25,12 +26,14 @@ namespace Yourworktime.Core.Services
 
             string salt = Utils.GetSalt(16);
             string hashedPassword = Utils.ComputeSha256Hash(string.Concat(model.Password, salt));
-
+            
             DateTime dateNow = DateTime.UtcNow;
 
+            Guid id = Guid.NewGuid();
+            string profileImagePath = $"W_{dateNow:yyyyMMddhhmm}_{id}.png";
             UserModel newUser = new UserModel()
             {
-                Id = new Guid(),
+                Id = id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 FullName = $"{model.FirstName} {model.LastName}",
@@ -38,11 +41,13 @@ namespace Yourworktime.Core.Services
                 RegisteredDate = dateNow,
                 Salt = salt,
                 Password = hashedPassword,
+                ProfileImagePath = profileImagePath,
                 Role = "User"
 
             };
             await userService.InsertUser(newUser);
 
+            Utils.CreateAndSaveProfileImage($"{newUser.FirstName.First()}W", 100, 100, $"../../data/profilePics/{profileImagePath}");
             return new SignUpResult(true, new string[0], newUser);
         }
 

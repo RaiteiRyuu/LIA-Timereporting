@@ -41,9 +41,9 @@ namespace Yourworktime.Core.Services
             var filter = Builders<UserModel>.Filter.Eq("Id", id);
 
             var found = await collection.FindAsync(filter);
-            if (!found.Any())
-                return null;
-            return found.First();
+
+            var foundList = found.ToList();
+            return foundList.Count == 0 ? null : foundList.First();
         }
 
         public async Task<List<UserModel>> LoadUsersByField<T>(string field, T value)

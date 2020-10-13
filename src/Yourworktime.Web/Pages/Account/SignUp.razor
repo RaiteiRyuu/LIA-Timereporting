@@ -90,7 +90,7 @@
                 RegisteredTime = DateTime.UtcNow,
                 Owner = result.User.Id,
                 Members = new Guid[] { result.User.Id },
-                WorkspaceImagePath = workspaceImagePath
+                WorkspaceImagePath = workspaceImagePath,
             };
             await serverHandler.WorkspaceService.InsertWorkspace(workspace);
 
