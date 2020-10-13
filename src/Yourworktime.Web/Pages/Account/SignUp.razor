@@ -82,13 +82,15 @@
         if (result.Successful)
         {
             showSignUpError = false;
-
+            DateTime RegisterTime = DateTime.UtcNow;
+            string profileImagePath = $"{result.User.FirstName.First()}{result.User.LastName.First()}_{RegisterTime.ToString("yyyyMMddhhmm")}_{result.User.Id.ToString()}";
             var workspace = new Core.Models.WorkspaceModel()
             {
                 Name = $"{result.User.FirstName}'s Workspace",
                 RegisteredTime = DateTime.UtcNow,
                 Owner = result.User.Id,
-                Members = new Guid[] {result.User.Id}
+                Members = new Guid[] {result.User.Id},
+                ProfileImagePath = profileImagePath
             };
             await serverHandler.WorkspaceService.InsertWorkspace(workspace);
 
