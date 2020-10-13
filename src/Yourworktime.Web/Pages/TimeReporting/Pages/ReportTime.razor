@@ -165,7 +165,8 @@
             Project = reportimemodel.Project,
             Tag = reportimemodel.Tag,
             Task = reportimemodel.Task,
-            Owner = userId
+            Owner = userId,
+            Id = new Guid()
         };
         ReportList.Add(reportimemodel);
         await serverHandler.ReportTimeService.InsertReport(model);
@@ -196,7 +197,10 @@
             });
         };
 
-        await serverHandler.ReportTimeService.LoadReportsFromUserId(userId);
+        foreach (var item in await serverHandler.ReportTimeService.LoadReportsFromUserId(userId))
+        {
+            ReportList.Add(item);
+        }
     }
 
     private void IncreamentCount()
@@ -245,10 +249,12 @@
 
     public async void DeletedReportFromList(ReportTimeModel report)
     {
+        if (report == null)
+            return;
+
         ReportList.Remove(report);
 
         await serverHandler.ReportTimeService.DeleteReport(report.Id);
     }
 
 }
-
