@@ -11,6 +11,7 @@ namespace Yourworktime.Core
     {
         private static string userDbName = "database";
         private static string userTableName = "users";
+        private static string reporttimeTableName = "reporttime";
 
         public UserService UserService 
         {
@@ -29,7 +30,7 @@ namespace Yourworktime.Core
             get
             {
                 if (_reportTimeService == null)
-                    _reportTimeService = new ReportTimeService(client.GetDatabase(userDbName), userTableName);
+                    _reportTimeService = new ReportTimeService(client.GetDatabase(userDbName), reporttimeTableName);
 
                 return _reportTimeService;
             }

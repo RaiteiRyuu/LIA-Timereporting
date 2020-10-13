@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yourworktime.Core.Models
+namespace Yourworktime.Web.Models
 {
     public class ReportTimeModel
     {

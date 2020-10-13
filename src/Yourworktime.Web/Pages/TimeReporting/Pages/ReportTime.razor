@@ -103,6 +103,11 @@
 </div>
 @code {
 
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    private Guid userId;
+
     public static string TimerOutput { get; set; }
 
     public List<ReportTimeModel> ReportList = new List<ReportTimeModel>();
@@ -113,7 +118,7 @@
 
 
     #region timer vars
-        private static System.Timers.Timer timer;
+    private static System.Timers.Timer timer;
     private int h, m, s;
     #endregion
 
@@ -145,28 +150,40 @@
         reportimemodel.CreationDate = DateTime.Now.Date;
     }
 
-    public void StopTimer()
+    public async void StopTimer()
     {
         timer.Stop();
         buttonColor = "btn-filled-light-blue";
         buttonName = "Start";
         reportimemodel.EndTime = DateTime.Now;
         reportimemodel.Duration = reportimemodel.EndTime.Subtract(reportimemodel.StartTime);
+        var model = new Core.Models.ReportTimeModel() {
+            CreationDate = reportimemodel.CreationDate,
+            Duration = reportimemodel.Duration,
+            StartTime = reportimemodel.StartTime,
+            EndTime = reportimemodel.EndTime,
+            Project = reportimemodel.Project,
+            Tag = reportimemodel.Tag,
+            Task = reportimemodel.Task,
+            Owner = userId
+        };
         ReportList.Add(reportimemodel);
+        await serverHandler.ReportTimeService.InsertReport(model);
+
         s = 0;
         m = 0;
         h = 0;
         TimerOutput = "00:00:00";
         reportimemodel = new ReportTimeModel();
-        Console.WriteLine();
-        //foreach (var report in ReportList)
-        //{
-        //    TotalTime += Convert.ToDouble(report.Duration);
-        //}
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        var authState = await authenticationStateTask;
+        var userIdClaim = authState.User.Claims.First(x => x.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.NameId);
+
+        userId = new Guid(userIdClaim.Value);
+
         TimerOutput = "00:00:00";
         timer = new Timer();
         timer.Interval = 1000;
@@ -178,6 +195,8 @@
                 StateHasChanged();
             });
         };
+
+        await serverHandler.ReportTimeService.LoadReportsFromUserId(userId);
     }
 
     private void IncreamentCount()
@@ -224,9 +243,11 @@
         reportimemodel.Tag = tag;
     }
 
-    public void DeletedReportFromList(ReportTimeModel report)
+    public async void DeletedReportFromList(ReportTimeModel report)
     {
         ReportList.Remove(report);
+
+        await serverHandler.ReportTimeService.DeleteReport(report.Id);
     }
 
 }

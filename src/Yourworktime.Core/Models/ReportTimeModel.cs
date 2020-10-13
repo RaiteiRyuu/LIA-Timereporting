@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MongoServer.Core.Models
+namespace Yourworktime.Core.Models
 {
     public class ReportTimeModel
     {
