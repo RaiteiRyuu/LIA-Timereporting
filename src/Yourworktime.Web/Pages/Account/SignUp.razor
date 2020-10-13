@@ -83,18 +83,18 @@
         {
             showSignUpError = false;
             DateTime RegisterTime = DateTime.UtcNow;
-            string profileImagePath = $"{result.User.FirstName.First()}{result.User.LastName.First()}_{RegisterTime.ToString("yyyyMMddhhmm")}_{result.User.Id.ToString()}";
+            string workspaceImagePath = $"W_{RegisterTime.ToString("yyyyMMddhhmm")}_{result.User.Id.ToString()}.png";
             var workspace = new Core.Models.WorkspaceModel()
             {
                 Name = $"{result.User.FirstName}'s Workspace",
                 RegisteredTime = DateTime.UtcNow,
                 Owner = result.User.Id,
                 Members = new Guid[] { result.User.Id },
-                ProfileImagePath = profileImagePath
+                WorkspaceImagePath = workspaceImagePath
             };
             await serverHandler.WorkspaceService.InsertWorkspace(workspace);
 
-            Utils.CreateAndSaveProfileImage($"{result.User.FirstName.First()}{result.User.LastName.First()}", 100, 100, $"../../data/profilePics/.png");
+            Utils.CreateAndSaveProfileImage($"{result.User.FirstName.First()}W", 100, 100, $"../../data/workspacePics/{workspaceImagePath}");
 
             navigationManager.NavigateTo("/account/signin");
         }
