@@ -16,4 +16,3 @@ namespace Yourworktime.Core.Models
         public DateTime RegisteredTime { get; set; }
     }
 }
-
