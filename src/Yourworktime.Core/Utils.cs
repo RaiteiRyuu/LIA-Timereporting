@@ -52,7 +52,7 @@ namespace Yourworktime.Core
             using (var sf = new StringFormat() { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
             {
                 using Font arialFont = new Font("Arial", 38);
-                graphics.DrawString(initials, arialFont, Brushes.White, new Rectangle(0, 0, width, height), sf);
+                graphics.DrawString(initials, arialFont, Brushes.White, new PointF(width / 2F, height / 2F), sf);
             }
 
             return bitmap;
