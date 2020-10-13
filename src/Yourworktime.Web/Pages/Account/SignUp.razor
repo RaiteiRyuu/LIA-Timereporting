@@ -89,10 +89,12 @@
                 Name = $"{result.User.FirstName}'s Workspace",
                 RegisteredTime = DateTime.UtcNow,
                 Owner = result.User.Id,
-                Members = new Guid[] {result.User.Id},
+                Members = new Guid[] { result.User.Id },
                 ProfileImagePath = profileImagePath
             };
             await serverHandler.WorkspaceService.InsertWorkspace(workspace);
+
+            Utils.CreateAndSaveProfileImage($"{result.User.FirstName.First()}{result.User.LastName.First()}", 100, 100, $"../../data/profilePics/.png");
 
             navigationManager.NavigateTo("/account/signin");
         }
