@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.Configuration;
-using MongoServer.Core.Models;
+using Yourworktime.Core.Models;
 using System.Threading.Tasks;
 using System.Linq;
 using System.IdentityModel.Tokens.Jwt;

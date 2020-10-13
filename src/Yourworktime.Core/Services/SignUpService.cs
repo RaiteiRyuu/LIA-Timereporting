@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using MongoServer.Core.Models;
+using Yourworktime.Core.Models;
 using System;
 using System.Threading.Tasks;
 

@@ -12,6 +12,7 @@ namespace Yourworktime.Core
         private static string userDbName = "database";
         private static string userTableName = "users";
         private static string storageTableName = "localstorage";
+        private static string reporttimeTableName = "reporttime";
 
         public UserService UserService 
         {
@@ -36,6 +37,18 @@ namespace Yourworktime.Core
             }
         }
         private LocalStorageService _storageService;
+
+        public ReportTimeService ReportTimeService
+        {
+            get
+            {
+                if (_reportTimeService == null)
+                    _reportTimeService = new ReportTimeService(client.GetDatabase(userDbName), reporttimeTableName);
+
+                return _reportTimeService;
+            }
+        }
+        private ReportTimeService _reportTimeService;
 
         public SignInService SignInService 
         {

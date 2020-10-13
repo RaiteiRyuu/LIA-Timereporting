@@ -3,10 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yourworktime.Web.Models
+namespace Yourworktime.Core.Models
 {
     public class ReportTimeModel
     {
+        [BsonId]
+        public Guid Id { get; set; }
+        public Guid Owner { get; set; }
         public string Task { get; set; }
         public string Project { get; set; }
         public string Tag { get; set; }
