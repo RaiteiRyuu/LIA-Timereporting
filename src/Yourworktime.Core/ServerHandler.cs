@@ -1,7 +1,4 @@
 ﻿using MongoDB.Driver;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 using Yourworktime.Core.Services;
 
@@ -9,17 +6,18 @@ namespace Yourworktime.Core
 {
     public class ServerHandler
     {
-        private static string userDbName = "database";
+        private static string databaseName = "database";
         private static string userTableName = "users";
         private static string storageTableName = "localstorage";
         private static string reporttimeTableName = "reporttime";
+        public static string workspacetableName = "workspace";
 
         public UserService UserService 
         {
             get
             {
                 if (_userService == null)
-                    _userService = new UserService(client.GetDatabase(userDbName), userTableName);
+                    _userService = new UserService(client.GetDatabase(databaseName), userTableName);
 
                 return _userService;
             }
@@ -31,7 +29,7 @@ namespace Yourworktime.Core
             get
             {
                 if (_storageService == null)
-                    _storageService = new LocalStorageService(client.GetDatabase(userDbName), storageTableName);
+                    _storageService = new LocalStorageService(client.GetDatabase(databaseName), storageTableName);
 
                 return _storageService;
             }
@@ -43,12 +41,24 @@ namespace Yourworktime.Core
             get
             {
                 if (_reportTimeService == null)
-                    _reportTimeService = new ReportTimeService(client.GetDatabase(userDbName), reporttimeTableName);
+                    _reportTimeService = new ReportTimeService(client.GetDatabase(databaseName), reporttimeTableName);
 
                 return _reportTimeService;
             }
         }
         private ReportTimeService _reportTimeService;
+
+        public WorkspaceService WorkspaceService
+        {
+            get
+            {
+                if (_workspaceService == null)
+                    _workspaceService = new WorkspaceService(client.GetDatabase(databaseName), workspacetableName);
+
+                return _workspaceService;
+            }
+        }
+        private WorkspaceService _workspaceService;
 
         public SignInService SignInService 
         {

@@ -20,6 +20,8 @@ using Syncfusion.Blazor;
 using Microsoft.IdentityModel.Tokens;
 using Yourworktime.Core;
 using Yourworktime.Web.Services;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 namespace Yourworktime.Web
 {
@@ -86,6 +88,11 @@ namespace Yourworktime.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(@"C:\Users\Dator 6\source\repos\cryptica\LIA-timereporting\data"),
+                RequestPath = "/data"
+            });
 
             app.UseRouting();
 

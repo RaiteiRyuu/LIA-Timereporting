@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Yourworktime.Core.Models;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Yourworktime.Core.Services
@@ -21,15 +22,18 @@ namespace Yourworktime.Core.Services
             CleanUpUserModel(model);
 
             if (await userService.CountUsersByField("Email", model.Email) > 0)
-                return new SignUpResult(false, new string[] { "An account with this E-mail already exists" });
+                return new SignUpResult(false, new string[] { "An account with this E-mail already exists" }, null);
 
             string salt = Utils.GetSalt(16);
             string hashedPassword = Utils.ComputeSha256Hash(string.Concat(model.Password, salt));
-
+            
             DateTime dateNow = DateTime.UtcNow;
 
+            Guid id = Guid.NewGuid();
+            string profileImagePath = $"W_{dateNow:yyyyMMddhhmm}_{id}.png";
             UserModel newUser = new UserModel()
             {
+                Id = id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 FullName = $"{model.FirstName} {model.LastName}",
@@ -37,12 +41,14 @@ namespace Yourworktime.Core.Services
                 RegisteredDate = dateNow,
                 Salt = salt,
                 Password = hashedPassword,
+                ProfileImagePath = profileImagePath,
                 Role = "User"
 
             };
             await userService.InsertUser(newUser);
 
-            return new SignUpResult(true, new string[0]);
+            Utils.CreateAndSaveProfileImage($"{newUser.FirstName.First()}W", 100, 100, $"../../data/profilePics/{profileImagePath}");
+            return new SignUpResult(true, new string[0], newUser);
         }
 
         private void CleanUpUserModel(UserModel model)

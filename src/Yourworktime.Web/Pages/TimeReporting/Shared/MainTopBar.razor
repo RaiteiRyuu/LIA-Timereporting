@@ -1,4 +1,6 @@
-﻿
+﻿@using MongoServer.Core.Models
+@inject Core.ServerHandler serverHandler
+
 <nav class="navbar navbar-light bg-dark-blue">
     <div class="container-fluid">
         <div class=" navbar-header mx-auto">
@@ -14,7 +16,7 @@
             </div>
 
             <div id="color-on-hover" href="#" data-toggle="dropdown">
-                <img src="/images/Image 4.png">
+                <img class="rounded-circle" src="/data/profilePics/@userModel.ProfileImagePath">
                 <svg id="dropdown-arrow" width="1em" height="2em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="#fff" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
                 </svg>
@@ -34,5 +36,17 @@
 </nav>
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
+    public UserModel userModel = new UserModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var userIdClaim = authState.User.Claims.First(x => x.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.NameId);
+
+        userModel = await serverHandler.UserService.LoadUserById(new Guid(userIdClaim.Value));
+        Console.WriteLine();
+    }
 }

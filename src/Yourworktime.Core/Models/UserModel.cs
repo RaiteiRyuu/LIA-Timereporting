@@ -17,5 +17,6 @@ namespace Yourworktime.Core.Models
         public string Password { get; set; }
         public DateTime RegisteredDate { get; set; }
         public string Role { get; set; }
+        public string ProfileImagePath { get; set; }
     }
 }

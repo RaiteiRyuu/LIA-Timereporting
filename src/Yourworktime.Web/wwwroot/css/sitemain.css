@@ -8,6 +8,16 @@ a, .btn-link {
     color: #0366d6;
 }
 
+.text-black-50 h4 {
+    width:150px;
+    overflow: hidden;
+    margin: 0;
+    height: 50px;
+    line-height: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
