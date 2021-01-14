@@ -1,0 +1,101 @@
+﻿@page "/reports"
+@attribute [Authorize]
+
+<div class="container">
+	<div class="p-3 text-white d-flex">
+		<div class="btn-group ml-auto p2 mr-3">
+			<button type="button" class="btn bg-light">Last week</button>
+			<button type="button" class="btn bg-light dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="#">Last month</a>
+				<a class="dropdown-item" href="#">Last year</a>
+			</div>
+		</div>
+		<a class="page-link text-black-50" href="#" aria-label="Previous">
+			<span aria-hidden="true">&laquo;</span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="page-link text-black-50" href="#" aria-label="Next">
+			<span aria-hidden="true">&raquo;</span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+</div>
+
+<br />
+<br />
+<br />
+<div class="container">
+	<div class="border bg-dark-blue p-3 text-white d-flex">
+		<span class="p2">Total: 7:45</span>
+		<div class="btn-group ml-auto p2 mr-3">
+			<button type="button" class="btn btn-filled-light-blue">Export</button>
+			<button type="button" class="btn btn-filled-light-blue dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="#">Export as pdf</a>
+				<a class="dropdown-item" href="#">Export as png</a>
+				<a class="dropdown-item" href="#">Export as excel</a>
+			</div>
+		</div>
+		<div class="btn-group">
+			<button type="button" class="btn btn-filled-light-blue">Only me</button>
+			<button type="button" class="btn btn-filled-light-blue dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="">Only me</a>
+				<a class="dropdown-item" href="#">Team</a>
+			</div>
+		</div>
+	</div>
+	<table class="table table-light">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Tasks</th>
+				<th scope="col">Project</th>
+				<th scope="col">Tag</th>
+				<th scope="col">Date</th>
+				<th scope="col">Duration</th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th scope="row">Server connections</th>
+				<td>Marketing</td>
+				<td>Business</td>
+				<td>9/21/2020</td>
+				<td>2:00</td>
+			</tr>
+			<tr>
+				<th scope="row">Server connections</th>
+				<td>Marketing</td>
+				<td>User interface</td>
+				<td>9/22/2020</td>
+				<td>4:00</td>
+			</tr>
+			<tr>
+				<th scope="row">Color fixes</th>
+				<td>Sallary</td>
+				<td>Business</td>
+				<td>9/23/2020</td>
+				<td>1:45</td>
+			</tr>
+			<tr>
+				<th scope="row">Design construction</th>
+				<td>Design</td>
+				<td>User Interface</td>
+				<td>9/24/2020</td>
+				<td>4:00</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+@code {
+
+}

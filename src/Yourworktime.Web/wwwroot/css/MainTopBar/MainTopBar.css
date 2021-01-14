@@ -1,0 +1,48 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.user-icon-img svg {
+    width: 30px;
+    height: 20px;
+    object-fit: cover;
+    margin-right:20px;
+}
+
+.user-icon-img {
+    width: auto;
+    height: 30px;
+    object-fit: cover;
+}
+
+.user-icon-img img {
+    width: auto;
+    height: 30px;
+}
+
+#color-on-hover {
+    object-fit: cover;
+    float:left;
+}
+
+#color-on-hover:hover{
+    cursor:pointer;
+}
+
+#svg-container{
+    float:left;
+
+}
+
+.dropdown-menu {
+    margin-top:2rem; 
+}
+
+.navbar-brand img{
+    width:auto;
+    height:30px;
+}
+
+

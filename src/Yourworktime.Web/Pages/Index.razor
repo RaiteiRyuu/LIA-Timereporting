@@ -1,0 +1,28 @@
+﻿@page "/"
+@inject ILanguageContainerService languageContainer
+
+<section id="background-main-page">
+    <div class="background-line" >
+        <div class="inner">
+            <div id="home-text">
+                <h1>@languageContainer.Keys["MainpageH1"]</h1>
+                <p>@languageContainer.Keys["MainpageParag1"]</p> 
+                <p>@languageContainer.Keys["MainpageParag2"]</p> 
+                <p>@languageContainer.Keys["MainpageParag3"]</p> 
+                <div id="btn-container">
+                    <div class="create-join">
+                        <NavLink class="btn btn-filled-light-blue" type="button" href="/account/signup">@languageContainer.Keys["ButtonCreateAccount"]</NavLink>
+                        <p>@languageContainer.Keys["Join3Others"]</p>
+                    </div>
+                    <NavLink class="btn btn-outline-light-blue" type="button" href="/learnmore">@languageContainer.Keys["Learnmore"]</NavLink>
+                </div>
+            </div>
+            <div id="computer-img">
+                <img src="/images/computer.png" alt="laptop to the right"/>
+            </div>
+        </div>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 319" style="position:absolute; bottom:0; z-index:50;" >
+        <path fill="#fff" fill-opacity="1" d="M0,160L1440,224L1440,320L0,320Z" ></path></svg>
+    </div>
+</section>

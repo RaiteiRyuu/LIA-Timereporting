@@ -1,0 +1,113 @@
+﻿@page "/account/signup"
+@using Yourworktime.Web.Models
+@using Yourworktime.Core;
+@inject NavigationManager navigationManager
+@inject ILanguageContainerService languageContainer
+@inject AuthService authService
+@inject ServerHandler serverHandler 
+
+<div class="form">
+    <h2 class="title">@languageContainer.Keys["SignUp"]</h2>
+
+    <EditForm Model="@signUpModel" OnValidSubmit="@RegisterUser">
+        <DataAnnotationsValidator />
+
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["FirstName"] </label>
+            <InputText id="fname" class="form-control" type="text" @bind-Value="@signUpModel.FirstName"></InputText>
+            <ValidationMessage For="@(() => signUpModel.FirstName)" />
+        </div>
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["LastName"]</label>
+            <InputText id="lname" class="form-control" type="text" @bind-Value="@signUpModel.LastName"></InputText>
+            <ValidationMessage For="@(() => signUpModel.LastName)" />
+        </div>
+
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["Email"]</label>
+            <InputText id="email" class="form-control" type="email" @bind-Value="@signUpModel.Email"></InputText>
+            <ValidationMessage For="@(() => signUpModel.Email)" />
+        </div>
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["Password"]</label>
+            <InputText id="password" class="form-control" type="password" @bind-Value="@signUpModel.Password"></InputText>
+            <ValidationMessage For="@(() => signUpModel.Password)" />
+        </div>
+        <div class="form-group">
+            <label class="label">@languageContainer.Keys["ConfirmPass"]</label>
+            <InputText id="password" class="form-control" type="password" @bind-Value="@signUpModel.ConfirmPassword"></InputText>
+            <ValidationMessage For="@(() => signUpModel.ConfirmPassword)" />
+        </div>
+
+        <div class="form-group">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" @bind-value="@signUpModel.AgreeToTerms">
+                <label class="label">@languageContainer.Keys["AgreeTo"] <a href="/termsofuse">@languageContainer.Keys["TermOfUse"]</a></label>
+            </div>
+            <ValidationMessage For="@(() => signUpModel.AgreeToTerms)" />
+        </div>
+
+        <div class="field" style="margin-bottom: 1em;">
+            <div class="control">
+                <button type="submit" class="btn btn-filled-light-blue btn-block">@languageContainer.Keys["SignUp"]</button>
+            </div>
+        </div>
+
+		@if (showSignUpError)
+        {
+			<div class="alert alert-danger">
+				<p>@signUpErrorMessage</p>
+			</div>
+        }
+
+		<div class="text-center">
+			<p>@languageContainer.Keys["AlreadyHaveAccount"] <a href="/account/signin">@languageContainer.Keys["SignIn"]</a></p>
+		</div>
+	</EditForm>
+</div>
+
+<div class="text-center">
+    <p>@languageContainer.Keys["DataIsSafe"] <a href="/security">@languageContainer.Keys["Security"]</a> <a href="/privacy">@languageContainer.Keys["Privacy"]</a></p>
+</div>
+
+@code {
+    private SignUpModel signUpModel = new SignUpModel();
+    private bool showSignUpError = false;
+    private string signUpErrorMessage;
+
+    private async Task RegisterUser()
+    {
+        var result = await authService.SingUp(signUpModel);
+
+        if (result.Successful)
+        {
+            showSignUpError = false;
+            DateTime RegisterTime = DateTime.UtcNow;
+            string workspaceImagePath = $"W_{RegisterTime.ToString("yyyyMMddhhmm")}_{result.User.Id.ToString()}.png";
+            var workspace = new Core.Models.WorkspaceModel()
+            {
+                Name = $"{result.User.FirstName}'s Workspace",
+                RegisteredTime = DateTime.UtcNow,
+                Owner = result.User.Id,
+                Members = new Guid[] { result.User.Id },
+                WorkspaceImagePath = workspaceImagePath,
+            };
+            await serverHandler.WorkspaceService.InsertWorkspace(workspace);
+
+            Utils.CreateAndSaveProfileImage($"{result.User.FirstName.First()}W", 100, 100, $"../../data/workspacePics/{workspaceImagePath}");
+
+            navigationManager.NavigateTo("/account/signin");
+        }
+        else
+        {
+            showSignUpError = true;
+            signUpErrorMessage = string.Join('\n', result.Errors);
+        }
+    }
+
+    private void OnEmailChanged()
+    {
+        if (showSignUpError)
+            showSignUpError = false;
+    }
+}

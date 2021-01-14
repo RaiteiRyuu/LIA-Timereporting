@@ -1,0 +1,93 @@
+﻿@page "/account/signin"
+@using Yourworktime.Web.Models
+@using System.Web
+@using Microsoft.AspNetCore.WebUtilities
+@inject NavigationManager navigationManager
+@inject ILanguageContainerService languageContainer
+@inject AuthService authService
+
+<div class="form">
+	<h2 class="title">@languageContainer.Keys["SignIn"]</h2>
+
+	<EditForm Model="@signInModel" OnValidSubmit="@RegisterUser">
+		<DataAnnotationsValidator />
+
+		<div class="form-group">
+			<label class="label">E-mail</label>
+			<InputText id="email" class="form-control" type="email" @bind-Value="@signInModel.Email"></InputText>
+			<ValidationMessage For="@(() => @signInModel.Email)" />
+		</div>
+		<div class="form-group">
+			<label class="label">@languageContainer.Keys["Password"]</label>
+			<InputText id="password" class="form-control" type="password" @bind-Value="@signInModel.Password"></InputText>
+			<ValidationMessage For="@(() => @signInModel.Password)" />
+		</div>
+		<div class="form-group">
+			<div class="d-flex justify-content-between">
+				<div class="form-check">
+					<input type="checkbox" class="form-check-input" @bind-value="@signInModel.StaySignedIn">
+					<label class="label">@languageContainer.Keys["StayLoggedIn"]</label>
+				</div>
+				<a href="/account/forgotpassword">@languageContainer.Keys["ForgotPass"]</a>
+			</div>
+		</div>
+
+		<div class="field" style="margin-bottom: 1em;">
+			<div class="control">
+				<button type="submit" class="btn btn-filled-light-blue btn-block">@languageContainer.Keys["SignIn"]</button>
+			</div>
+		</div>
+
+		@if (showSignInError)
+		{
+			<div class="alert alert-danger">
+				@languageContainer.Keys["WrongUserPass"]
+			</div>
+		}
+
+		<div class="text-center">
+			<p>@languageContainer.Keys["DontHaveAccount"] <a href="/account/signup">@languageContainer.Keys["SignUp"]</a></p>
+		</div>
+	</EditForm>
+	</div>
+
+	<div class="text-center">
+		<p>@languageContainer.Keys["DataIsSafe"] <a href="/security">@languageContainer.Keys["Security"]</a> <a href="/privacy">@languageContainer.Keys["Privacy"]</a></p>
+	</div>
+
+	@code {
+		private SignInModel signInModel = new SignInModel();
+		private bool showSignInError = false;
+		private string signInErrorMessage;
+
+		private async Task RegisterUser()
+		{
+			var result = await authService.SignIn(signInModel);
+
+			if (result.Successful)
+			{
+				showSignInError = false;
+
+				Uri uri = navigationManager.ToAbsoluteUri(HttpUtility.UrlDecode(navigationManager.Uri));
+				if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("returnUrl", out var returnUrl))
+				{
+					navigationManager.NavigateTo(returnUrl);
+				}
+				else
+				{
+					navigationManager.NavigateTo("/reporttime");
+				}
+			}
+			else
+			{
+				showSignInError = true;
+				signInErrorMessage = string.Join('\n', result.Errors);
+			}
+		}
+
+		private void OnFormChanged()
+		{
+			if (showSignInError)
+				showSignInError = false;
+		}
+	}

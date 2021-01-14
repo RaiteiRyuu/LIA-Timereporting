@@ -1,0 +1,34 @@
+﻿@inject ILanguageContainerService languageContainer
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark-blue">
+    <a href="#" id="logo-main" class="navbar-brand">
+        <img src="/images/textLogo.svg">
+    </a>
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <NavLink class="navlink-white" href="/#" Match="NavLinkMatch.Prefix">@languageContainer.Keys["Home"]</NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="navlink-white" href="/features" Match="NavLinkMatch.Prefix">@languageContainer.Keys["Features"]</NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="navlink-white" href="/pricing" Match="NavLinkMatch.Prefix">@languageContainer.Keys["Pricing"]</NavLink>
+            </li>
+            <li class="nav-item">
+                <NavLink class="navlink-white" href="/support" Match="NavLinkMatch.Prefix">@languageContainer.Keys["Support"]</NavLink>
+            </li>
+        </ul>
+        <div class="ml-auto">
+            <NavLink class="btn btn-outline-light-blue" href="/account/signin" type="button">@languageContainer.Keys["SignIn"]</NavLink>
+            <NavLink class="btn btn-filled-light-blue" href="/account/signup" type="button">@languageContainer.Keys["SignUp"]</NavLink>
+        </div>
+    </div>
+</nav>
+
+@code {
+
+}

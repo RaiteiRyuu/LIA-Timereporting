@@ -1,0 +1,19 @@
+﻿@inherits LayoutComponentBase
+
+<div class="flex-grow-1 overflow-hidden">
+    <div class="row">
+        <div class="col">
+            <MainTopBar />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-2-5">
+            <div class="sidebar w-100">
+                <MainSideBar />
+            </div>
+        </div>
+        <div class="col">
+            @Body
+        </div>
+    </div>
+</div>
